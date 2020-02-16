@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Zombie.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Tileset/tiles.tres" type="TileSet" id=3]
+[ext_resource path="res://Assets/freetileset/png/BG/BG.png" type="Texture" id=4]
+[ext_resource path="res://Assets/songs/When_Player_in_zombie.wav" type="AudioStream" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 940.573, 49.2447 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 77.3288, 173.367 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 254.702, 92.1755 )
+
+[node name="AreaTest" type="Node2D"]
+position = Vector2( 493.321, 527.474 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 470.992, -227.84 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+limit_bottom = 800
+limit_smoothed = true
+
+[node name="Zombie" parent="." instance=ExtResource( 2 )]
+position = Vector2( -85.5962, -93.1487 )
+final_position = Vector2( 300, 0 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 3 )
+cell_size = Vector2( 128, 128 )
+format = 1
+tile_data = PoolIntArray( -4, 2, 0, 65532, 5, 0, 10, 0, 0, 11, 1, 0, 12, 1, 0, 13, 2, 0, 131068, 9, 0, 131069, 10, 0, 131070, 1, 0, 131071, 1, 0, 65536, 1, 0, 65537, 1, 0, 65538, 1, 0, 65539, 1, 0, 65540, 1, 0, 65541, 1, 0, 65542, 1, 0, 65543, 1, 0, 65544, 1, 0, 65545, 1, 0, 65546, 7, 0, 65547, 4, 0, 65548, 4, 0, 65549, 5, 0, 196604, 4, 0, 196605, 4, 0, 196606, 4, 0, 196607, 4, 0, 131072, 4, 0, 131073, 4, 0, 131074, 4, 0, 131075, 4, 0, 131076, 4, 0, 131077, 4, 0, 131078, 4, 0, 131079, 4, 0, 131080, 4, 0, 131081, 4, 0, 131082, 4, 0, 131083, 4, 0, 131084, 4, 0, 131085, 4, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="TileMap"]
+position = Vector2( 3.09082, 128.726 )
+collision_layer = 0
+collision_mask = 16
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
+position = Vector2( 399.305, 49.7007 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
+position = Vector2( -462.655, -82.1284 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
+position = Vector2( 1536.49, -35.2012 )
+shape = SubResource( 3 )
+
+[node name="BG" type="Sprite" parent="."]
+position = Vector2( 4.85867, -194.274 )
+scale = Vector2( 1, 1.11074 )
+z_index = -10
+texture = ExtResource( 4 )
+
+[node name="BG2" type="Sprite" parent="."]
+position = Vector2( 1002.89, -192.627 )
+scale = Vector2( 1, 1.11647 )
+z_index = -10
+texture = ExtResource( 4 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )

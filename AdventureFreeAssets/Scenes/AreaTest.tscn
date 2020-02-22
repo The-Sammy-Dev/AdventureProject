@@ -1,72 +1,99 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/Zombie.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/freetileset/png/BG/0.png" type="Texture" id=2]
 [ext_resource path="res://Tileset/tiles.tres" type="TileSet" id=3]
-[ext_resource path="res://Assets/freetileset/png/BG/BG.png" type="Texture" id=4]
-[ext_resource path="res://Assets/songs/When_Player_in_zombie.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/freetileset/png/BG/1.png" type="Texture" id=4]
+[ext_resource path="res://Assets/freetileset/png/BG/2.png" type="Texture" id=5]
+[ext_resource path="res://Assets/freetileset/png/BG/3.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/Zombie.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scripts/AreaTest.gd" type="Script" id=8]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 940.573, 49.2447 )
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -102.096, 78.375, 0, 0, 0, 0, 79.0845, 79.5356 )
+}
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 77.3288, 173.367 )
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 254.702, 92.1755 )
-
-[node name="AreaTest" type="Node2D"]
+[node name="areatest" type="Node2D"]
 position = Vector2( 493.321, 527.474 )
+script = ExtResource( 8 )
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 470.992, -227.84 )
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-limit_bottom = 800
-limit_smoothed = true
-
-[node name="Zombie" parent="." instance=ExtResource( 2 )]
-position = Vector2( -85.5962, -93.1487 )
-final_position = Vector2( 300, 0 )
-
-[node name="TileMap" type="TileMap" parent="."]
+[node name="tilemap" type="TileMap" parent="."]
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 128, 128 )
 format = 1
-tile_data = PoolIntArray( -4, 2, 0, 65532, 5, 0, 10, 0, 0, 11, 1, 0, 12, 1, 0, 13, 2, 0, 131068, 9, 0, 131069, 10, 0, 131070, 1, 0, 131071, 1, 0, 65536, 1, 0, 65537, 1, 0, 65538, 1, 0, 65539, 1, 0, 65540, 1, 0, 65541, 1, 0, 65542, 1, 0, 65543, 1, 0, 65544, 1, 0, 65545, 1, 0, 65546, 7, 0, 65547, 4, 0, 65548, 4, 0, 65549, 5, 0, 196604, 4, 0, 196605, 4, 0, 196606, 4, 0, 196607, 4, 0, 131072, 4, 0, 131073, 4, 0, 131074, 4, 0, 131075, 4, 0, 131076, 4, 0, 131077, 4, 0, 131078, 4, 0, 131079, 4, 0, 131080, 4, 0, 131081, 4, 0, 131082, 4, 0, 131083, 4, 0, 131084, 4, 0, 131085, 4, 0 )
+tile_data = PoolIntArray( -262126, 12, 0, -262125, 13, 0, -262124, 13, 0, -262123, 13, 0, -262122, 13, 0, -262121, 14, 0, -196593, 12, 0, -196592, 14, 0, -131054, 12, 0, -131053, 14, 0, -10, 12, 0, -9, 13, 0, -8, 13, 0, -7, 13, 0, -6, 13, 0, -5, 13, 0, -4, 2, 0, -65529, 12, 0, -65528, 14, 0, -65521, 12, 0, -65520, 14, 0, 65532, 9, 0, 65533, 14, 0, 10, 0, 0, 11, 1, 0, 12, 1, 0, 13, 2, 0, 14, 17, 0, 15, 17, 0, 16, 17, 0, 17, 17, 0, 18, 17, 0, 19, 0, 0, 20, 1, 0, 21, 1, 0, 22, 1, 0, 23, 2, 0, 131068, 9, 0, 131069, 10, 0, 131070, 1, 0, 131071, 1, 0, 65536, 1, 0, 65537, 1, 0, 65538, 1, 0, 65539, 1, 0, 65540, 1, 0, 65541, 1, 0, 65542, 1, 0, 65543, 1, 0, 65544, 1, 0, 65545, 1, 0, 65546, 7, 0, 65547, 4, 0, 65548, 4, 0, 65549, 5, 0, 65550, 17, 0, 65551, 17, 0, 65552, 17, 0, 65553, 17, 0, 65554, 17, 0, 65555, 3, 0, 65556, 4, 0, 65557, 4, 0, 65558, 4, 0, 65559, 4, 0, 196604, 4, 0, 196605, 4, 0, 196606, 4, 0, 196607, 4, 0, 131072, 4, 0, 131073, 4, 0, 131074, 4, 0, 131075, 4, 0, 131076, 4, 0, 131077, 4, 0, 131078, 4, 0, 131079, 4, 0, 131080, 4, 0, 131081, 4, 0, 131082, 4, 0, 131083, 4, 0, 131084, 4, 0, 131085, 4, 0, 131086, 17, 0, 131087, 17, 0, 131088, 17, 0, 131089, 17, 0, 131090, 17, 0, 131091, 4, 0, 131092, 4, 0, 131093, 4, 0, 131094, 4, 0, 131095, 4, 0 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="TileMap"]
-position = Vector2( 3.09082, 128.726 )
-collision_layer = 0
-collision_mask = 16
-__meta__ = {
-"_edit_group_": true
-}
+[node name="background" type="ParallaxBackground" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
-position = Vector2( 399.305, 49.7007 )
-shape = SubResource( 1 )
+[node name="layer0" type="ParallaxLayer" parent="background"]
+motion_mirroring = Vector2( 1280, 960 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
-position = Vector2( -462.655, -82.1284 )
-shape = SubResource( 2 )
+[node name="image" type="Sprite" parent="background/layer0"]
+texture = ExtResource( 2 )
+centered = false
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="TileMap/StaticBody2D"]
-position = Vector2( 1536.49, -35.2012 )
-shape = SubResource( 3 )
+[node name="layer1" type="ParallaxLayer" parent="background"]
+motion_scale = Vector2( 0.1, 1 )
+motion_mirroring = Vector2( 1280, 960 )
 
-[node name="BG" type="Sprite" parent="."]
-position = Vector2( 4.85867, -194.274 )
-scale = Vector2( 1, 1.11074 )
-z_index = -10
+[node name="image" type="Sprite" parent="background/layer1"]
 texture = ExtResource( 4 )
+centered = false
 
-[node name="BG2" type="Sprite" parent="."]
-position = Vector2( 1002.89, -192.627 )
-scale = Vector2( 1, 1.11647 )
-z_index = -10
-texture = ExtResource( 4 )
+[node name="layer2" type="ParallaxLayer" parent="background"]
+motion_scale = Vector2( 0.15, 1 )
+motion_mirroring = Vector2( 1280, 0 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 5 )
+[node name="image" type="Sprite" parent="background/layer2"]
+texture = ExtResource( 5 )
+centered = false
+
+[node name="layer3" type="ParallaxLayer" parent="background"]
+motion_scale = Vector2( 0.5, 1 )
+motion_mirroring = Vector2( 1280, 0 )
+
+[node name="image" type="Sprite" parent="background/layer3"]
+texture = ExtResource( 6 )
+centered = false
+
+[node name="path1" type="Path2D" parent="."]
+curve = SubResource( 1 )
+
+[node name="follow" type="PathFollow2D" parent="path1"]
+position = Vector2( -102.096, 78.375 )
+rotate = false
+loop = false
+
+[node name="zombie" parent="path1/follow" instance=ExtResource( 7 )]
+powerAttack = 0.5
+
+[node name="path2" type="Path2D" parent="."]
+position = Vector2( 1520, -136 )
+curve = SubResource( 1 )
+
+[node name="follow" type="PathFollow2D" parent="path2"]
+position = Vector2( -102.096, 78.375 )
+rotate = false
+loop = false
+
+[node name="zombie" parent="path2/follow" instance=ExtResource( 7 )]
+maxLife = 10
+powerAttack = 1.0
+velocityFollow = 0.1
+
+[node name="path3" type="Path2D" parent="."]
+position = Vector2( 2720, -664 )
+curve = SubResource( 1 )
+
+[node name="follow" type="PathFollow2D" parent="path3"]
+position = Vector2( -102.096, 78.375 )
+rotate = false
+loop = false
+
+[node name="zombie" parent="path3/follow" instance=ExtResource( 7 )]
+maxLife = 10
+powerAttack = 1.0
+velocityFollow = 0.1
+
+[node name="spawn" type="Position2D" parent="."]
+position = Vector2( 1027.06, -265.145 )

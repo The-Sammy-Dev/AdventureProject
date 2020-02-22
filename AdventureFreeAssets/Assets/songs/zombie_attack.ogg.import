@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/zombie_attack.ogg-3a90385a892ef795aaffa064a2c3186b.oggstr"
+
+[deps]
+
+source_file="res://Assets/songs/zombie_attack.ogg"
+dest_files=[ "res://.import/zombie_attack.ogg-3a90385a892ef795aaffa064a2c3186b.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

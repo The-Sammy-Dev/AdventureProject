@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/When_Player_in_zombie.ogg-743a423b8fe4e26c9451089c589a6f41.oggstr"
+
+[deps]
+
+source_file="res://Assets/songs/When_Player_in_zombie.ogg"
+dest_files=[ "res://.import/When_Player_in_zombie.ogg-743a423b8fe4e26c9451089c589a6f41.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -3,12 +3,9 @@ extends KinematicBody2D
 export var LIFE: = 6
 
 const UP: = Vector2(0, -1)
-const DEAD_ZONE = 0.03
 
-# TODO Fazer animação de ataque_pulo e fazer o attack ficar mais suave, criar animação de dano do personagem, empurrar o zombie quando atacado, anim ataque zombie
- 
 # Lembre-se de colocar as ações nas config do projeto se não não funcionará
-onready var wait_for_attack_timer: = $WaitForAttack
+onready var move_sound: = $sounds/sound_move
 onready var position2d: = $Position2D
 onready var anim: = $AnimatedSprite
 # Atacking
@@ -17,10 +14,9 @@ var input_attack: = false
 var can_attack: = true
 # Movement.x and jump
 signal input_changed
-
 # TESTE
 var run_default_max_vel: = 400
-
+var jump_attacking = false
 
 var default_max_velocity: = 200
 var acceleration: = 2000
@@ -40,51 +36,39 @@ var target_velocity: = 0.0
 var current_velocity: = Vector2()
 
 var running = false
-
+var touchable: = true
 func _ready() -> void:
-	Event.connect("player_collide_on_enemy", self, "_on_player_collide_on_enemy")
+	
 	max_current_velocity = default_max_velocity
-	input_direction.x == 0
-	wait_for_attack_timer.connect("timeout", self, "_on_wait_for_attack_timer_timeout")
 	
-func _on_player_collide_on_enemy():
-	LIFE -= 1
-	print(LIFE)
-	damaged(anim)
-	print(anim.modulate)
+func _process(delta: float) -> void:
 	
-func _physics_process(delta: float) -> void:
-	
-	
+	if !touchable:
+		$Player_Damaged_Area/CollisionShape2D.disabled = true
+	else:
+		$Player_Damaged_Area/CollisionShape2D.disabled = false
+		
 	if Input.is_action_pressed("input_run"):
 		running = true
 	else:
 		running = false
+	
+	if input_direction and input_direction != last_input_direction:# n sei pq ta aqui
+		emit_signal("input_changed")
+	
+	jump_input = Input.is_action_pressed("input_jump")
+	
+func _physics_process(delta: float) -> void:
 	
 	input_direction.x = ( 
 				float(Input.is_action_pressed("input_right") ) 
 				- float(Input.is_action_pressed("input_left") )
 				)
 	
-	jump_input = Input.is_action_pressed("input_jump")
+	attacking()
 	
-	if input_direction and input_direction != last_input_direction:
-		emit_signal("input_changed")
+	sound_move()
 	
-	if Input.is_action_pressed("input_attack") and is_on_floor() and can_attack:
-		wait_for_attack_timer.start()
-		can_attack = false
-		if last_input_direction.x == 1 :
-			position2d.position = Vector2(50, 0)
-			attacking()
-		if last_input_direction.x == -1 :
-			position2d.position = Vector2(-50, 0)
-			attacking()
-	
-#	if input_direction.x == 0 :
-#		joystick_h_movement(delta) # Eu havia criado uma func para o joystick porem é desnecessauro pois
-# 									na aba input_map da pra configurar lá <3
-		
 	h_movement(delta)
 	
 	v_movement(delta)
@@ -92,21 +76,55 @@ func _physics_process(delta: float) -> void:
 	move_and_slide(current_velocity, UP)
 	
 func attacking() -> void :
-	input_attack = true
-	anim.play("attack")
 	
-	yield(get_tree().create_timer(.1), "timeout")
+	if last_input_direction.x == 1 :
+		position2d.position = Vector2(50, 0)
+	if last_input_direction.x == -1 :
+		position2d.position = Vector2(-50, 0)
 	
-	var attack_area = PRE_ATTACK.instance()
-	add_child(attack_area)
-	attack_area.position = position2d.position
+	if Input.is_action_pressed("input_attack") and is_on_floor() and can_attack:
+		
+		can_attack = false
+		input_attack = true
+		anim.play("attack")
+		yield(get_tree().create_timer(.1), "timeout")
+		
+		var attack_area = PRE_ATTACK.instance()
+		add_child(attack_area)
+		attack_area.position = position2d.position
+		
+		yield(anim, "animation_finished")
+		
+		input_attack = false
+		
+		yield(get_tree().create_timer(1),"timeout")
+		
+		can_attack = true
 	
-	yield(anim, "animation_finished")
-	
-	input_attack = false
+	if !is_on_floor(): # Jump Attack
+		if Input.is_action_pressed("input_attack") and can_attack:
+				
+				can_attack = false
+				jump_attacking = true
+				
+				anim.stop()
+				anim.play("jump_attack")
+				
+				var attack_area = PRE_ATTACK.instance()
+				
+				add_child(attack_area)
+				
+				attack_area.position = position2d.position
+				
+				yield(anim,"animation_finished")
+				
+				jump_attacking = false
+				
+				yield(get_tree().create_timer(1),"timeout")
+				
+				can_attack = true
 
 func v_movement(delta) -> void :
-	
 	if not input_attack:
 		if is_on_floor() :
 			current_velocity.y = 0
@@ -114,14 +132,18 @@ func v_movement(delta) -> void :
 			if jump_input :
 				current_velocity.y = jump_velocity
 		else:
+			
 			if last_input_direction.x == 1 :
 				anim.flip_h = false
-				anim.play("jump")
+				
+				if !jump_attacking:
+					anim.play("jump")
+				
 			if last_input_direction.x == -1 :
 				anim.flip_h = true
-				anim.play("jump")
-		
-	
+				
+				if !jump_attacking:
+					anim.play("jump")
 		
 	
 	if is_on_ceiling():
@@ -132,18 +154,16 @@ func v_movement(delta) -> void :
 	if not jump_input and current_velocity.y < 0 :
 		variation = gravity_acceleration * delta * jump_force_factor
 		
-	
-		
 	current_velocity.y = begin(current_velocity.y, fall_velocity, variation )
-
+	
 func h_movement(delta) -> void :
 	
 	if input_attack:
 		current_velocity.x = 0
 		return
 		
-		
 	if running :
+			
 		if input_direction :
 			last_input_direction = input_direction
 
@@ -166,27 +186,28 @@ func h_movement(delta) -> void :
 		if input_direction.x == 0 and not input_attack and is_on_floor() :
 			anim.play("idle")
 			current_velocity.x = 0
-	
+			
 		if input_direction.x < 0 and is_on_floor() :
 			anim.flip_h = true
 			anim.play("run")
+			
 		elif input_direction.x > 0 and is_on_floor() :
 			anim.flip_h = false
 			anim.play("run")
+			
 	else:
 		if input_direction.x == 0 and not input_attack and is_on_floor() :
 			anim.play("idle")
 			current_velocity.x = 0
-	
+		
 		if input_direction.x < 0 and is_on_floor() :
 			anim.flip_h = true
 			anim.play("walking")
+			
 		elif input_direction.x > 0 and is_on_floor() :
 			anim.flip_h = false
 			anim.play("walking")
-	
-	
-	
+		
 		if input_direction :
 			last_input_direction = input_direction
 	
@@ -218,24 +239,54 @@ func begin(current_val, target_val, variation) -> float :
 	
 	return target_val
 
-func _on_wait_for_attack_timer_timeout():
-	can_attack = true
+func knockback(area) -> void :
+	var knockback_speed = 1000
+	var direction = (global_position - area.global_position).normalized()
+	current_velocity = direction * knockback_speed
+	
+func _damaged(node: AnimatedSprite ):
+	
+	touchable = false
+	
+	node.modulate = Color(1, 0, 0, 1)
+	yield(get_tree().create_timer(.1),"timeout")
+	node.modulate = Color(1, 1, 1, 0)
+	yield(get_tree().create_timer(.1),"timeout")
+	node.modulate = Color(1, 1, 1, 1)
+	yield(get_tree().create_timer(.1),"timeout")
+	node.modulate = Color(1, 1, 1, 0)
+	yield(get_tree().create_timer(.1),"timeout")
+	node.modulate = Color(1, 1, 1, 1)
+	yield(get_tree().create_timer(.1),"timeout")
+	node.modulate = Color(1, 1, 1, 0)
+	yield(get_tree().create_timer(.1),"timeout")
+	node.modulate = Color(1, 1, 1, 1)
+	yield(get_tree().create_timer(.3),"timeout")
+	touchable = true
 
-func damaged(node: AnimatedSprite ):
-	if last_input_direction.x >= 0 :
-		move_local_x(-150)
-	if last_input_direction.x <= 0 :
-		move_local_x(150)
-	node.modulate = Color(1, 1, 1, 0)
-	yield(get_tree().create_timer(.1),"timeout")
-	node.modulate = Color(1, 1, 1, 1)
-	yield(get_tree().create_timer(.1),"timeout")
-	node.modulate = Color(1, 1, 1, 0)
-	yield(get_tree().create_timer(.1),"timeout")
-	node.modulate = Color(1, 1, 1, 1)
-	yield(get_tree().create_timer(.1),"timeout")
-	node.modulate = Color(1, 1, 1, 0)
-	yield(get_tree().create_timer(.1),"timeout")
-	node.modulate = Color(1, 1, 1, 1)
-
+func on_damaged(area) -> void :
+	knockback(area)
+	_damaged(anim)
+	LIFE =- 1
+	
+func sound_move():
+	if Input.is_action_pressed("input_right") or Input.is_action_pressed("input_left"):
+		if running:
+			if is_on_floor():
+				move_sound.pitch_scale = .9
+				move_sound.bus = "run"
+				if !move_sound.playing:
+					move_sound.play() 
+			else:
+				move_sound.stop()
+		else:
+			if is_on_floor():
+				move_sound.pitch_scale = .5
+				move_sound.bus = "run"
+				if !move_sound.playing:
+					move_sound.play() 
+			else:
+				move_sound.stop()
+	else:
+		move_sound.stop()
 

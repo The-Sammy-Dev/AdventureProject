@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/attack_1.gd" type="Script" id=1]
+[ext_resource path="res://Assets/songs/When_Player_in_zombie.wav" type="AudioStream" id=2]
+[ext_resource path="res://Assets/songs/sword sound.wav" type="AudioStream" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 27.96, 36.5481 )
@@ -15,3 +17,11 @@ shape = SubResource( 1 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.3
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="ATTACK_ZOMBIE" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 2 )
+
+[node name="NO_HIT" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 3 )

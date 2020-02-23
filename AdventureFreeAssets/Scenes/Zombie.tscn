@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://Scenes/Enemy.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/zombie/female/Idle (1).png" type="Texture" id=2]
@@ -45,8 +45,6 @@
 [ext_resource path="res://Assets/Sprites/zombie/female/Dead (9).png" type="Texture" id=43]
 [ext_resource path="res://Assets/Sprites/zombie/female/Dead (4).png" type="Texture" id=44]
 [ext_resource path="res://Assets/Sprites/zombie/female/Dead (7).png" type="Texture" id=45]
-[ext_resource path="res://Scripts/Damage_Area.gd" type="Script" id=46]
-[ext_resource path="res://Scenes/Damaged.gd" type="Script" id=47]
 [ext_resource path="res://Assets/songs/zombie-16.wav" type="AudioStream" id=48]
 [ext_resource path="res://Assets/songs/zombie-17.wav" type="AudioStream" id=49]
 [ext_resource path="res://Assets/songs/zombie-18.wav" type="AudioStream" id=50]
@@ -66,14 +64,14 @@ animations = [ {
 "name": "dead",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 37 ), ExtResource( 15 ), ExtResource( 10 ), ExtResource( 4 ), ExtResource( 19 ), ExtResource( 3 ), ExtResource( 16 ) ],
-"loop": true,
-"name": "attack",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 13 ), ExtResource( 22 ), ExtResource( 6 ), ExtResource( 40 ), ExtResource( 7 ), ExtResource( 36 ), ExtResource( 23 ), ExtResource( 26 ), ExtResource( 38 ), ExtResource( 35 ) ],
 "loop": true,
 "name": "walking",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 37 ), ExtResource( 15 ), ExtResource( 10 ), ExtResource( 4 ), ExtResource( 19 ), ExtResource( 3 ), ExtResource( 16 ) ],
+"loop": true,
+"name": "attack",
 "speed": 5.0
 } ]
 
@@ -89,6 +87,7 @@ collision_mask = 0
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( -1.05261, 0 )
 shape = SubResource( 1 )
 
@@ -99,16 +98,17 @@ frames = SubResource( 2 )
 animation = "walking"
 
 [node name="Damage" type="Area2D" parent="."]
-collision_mask = 4
-script = ExtResource( 46 )
+collision_layer = 0
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Damage"]
 shape = SubResource( 3 )
 
-[node name="Damaged" type="Area2D" parent="."]
+[node name="Damaged" type="Area2D" parent="." groups=[
+"zombie",
+]]
 collision_layer = 0
 collision_mask = 32
-script = ExtResource( 47 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Damaged"]
 shape = SubResource( 4 )
@@ -117,12 +117,17 @@ shape = SubResource( 4 )
 
 [node name="idle_song1" type="AudioStreamPlayer2D" parent="Songs"]
 stream = ExtResource( 48 )
+max_distance = 500.0
 
 [node name="idle_song2" type="AudioStreamPlayer2D" parent="Songs"]
 stream = ExtResource( 49 )
+max_distance = 500.0
 
 [node name="idle_song3" type="AudioStreamPlayer2D" parent="Songs"]
 stream = ExtResource( 50 )
+max_distance = 500.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
+
+[node name="Timer_Stop" type="Timer" parent="."]

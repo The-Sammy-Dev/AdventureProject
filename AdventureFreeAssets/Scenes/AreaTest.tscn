@@ -22,10 +22,10 @@ script = ExtResource( 8 )
 position = Vector2( 1746.23, 382.049 )
 z_index = 8
 script = ExtResource( 1 )
-COR = Color( 0.0509804, 0.286275, 0.913725, 1 )
+COR = Color( 0.0509804, 0.286275, 0.913725, 0.819608 )
 particles_alpha = 0.2
 ALTURA = 350.0
-LARGURA = 2000.0
+LARGURA = 700.0
 
 [node name="Polygon2Dwater3" type="Node2D" parent="."]
 position = Vector2( -1702.44, 382.049 )

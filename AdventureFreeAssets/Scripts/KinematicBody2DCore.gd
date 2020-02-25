@@ -9,10 +9,19 @@ export (types) var type = types.player
 export (int) var walk_speed = 120
 export (int) var run_speed = 450
 export (int) var jump_speed = -800
-export (int) var gravity = 40
+export (int) var maxGravity = 40
+onready var gravity = maxGravity
 export (int) var maxLife = 6
 export (bool) var showBarLife: bool = true
 export (float) var powerAttack: float = 2.0
+var hiting = 0
+var dirHiting = 1
+
+var floating = false
+var speed = 1
+var WATER_K = .25
+var water = null
+var water_height
 
 signal gameover
 
@@ -25,10 +34,12 @@ var new_anim
 var jumping = false
 var attacking = false
 var dying = false
+var buoyancy = 0
 
 func _ready() -> void:
 	# Adiciona ao grupo dos "types" -> player ou enemy
 	add_to_group(Common._findState(type, types))
+	gravity = maxGravity
 	
 	life = maxLife
 	if has_node("barlife"):
@@ -82,12 +93,16 @@ func _get_input() -> void:
 		state_walking = states.run
 
 	# Se é pra pular e estiver no chão
-	if jump and is_on_floor():
-		jumping = true
+	if jump and (is_on_floor() or weakref(water).get_ref()):
 		attacking = false
-		_playAudioSfx(str(Common._findState(states.jump, states), "_up")) # Executa o audio
-		_change_state(states.jump)
-		velocity.y = jump_speed
+		if !water:
+			jumping = true
+			_playAudioSfx(str(Common._findState(states.jump, states), "_up")) # Executa o audio
+			_change_state(states.jump)
+		if water:
+			buoyancy = 30
+		else:
+			velocity.y = jump_speed
 	# Se é pra andar para direita, mas não está atacando
 	if right and !attacking:
 		_change_state(state_walking)
@@ -150,10 +165,25 @@ func _process(delta) -> void:
 		
 func _physics_process(delta) -> void:
 	# Agora aqui vamos controlar a física, então precisamos de frames padrões
-	
+	#if floating and water != null:
+		#var ct = global_position.y - (water.global_position.y - water_height)
+		#global_position.y -=  ((WATER_K * ( ct ))  ) * 1.5
+		
 	# Se estiver morrendo, então sai do _physics_process()
 	if dying: return
 	
+	if buoyancy > 0  and weakref(water):
+		buoyancy -= 1
+		position.y -= 5
+		#return
+	
+	if hiting > 0 and weakref(bodyEntered):
+		hiting -= 1
+		if $sprite.flip_h:
+			position.x += 10
+		else:
+			position.x -= 10
+		
 	# Se encostou no chão, mas estava pulando, então muda pra IDLE
 	if is_on_floor() and state == states.jump:
 		_change_state(states.idle)
@@ -193,6 +223,7 @@ func _on_sprite_animation_finished() -> void:
 func _on_area_attack_body_entered(body):
 	if body.is_in_group(Common._findState(types.player, types)) or body.is_in_group(Common._findState(types.enemy, types)):
 		bodyEntered = body
+		dirHiting = sign(body.global_position.x - self.global_position.x)
 	
 func _on_area_attack_body_exited(body):
 	if body.is_in_group(Common._findState(types.player, types)) or body.is_in_group(Common._findState(types.enemy, types)):
@@ -216,6 +247,8 @@ func hit(power):
 		_dying()
 	else:
 		var ct = 1
+		if type == types.enemy:
+			hiting = 5 * power
 		while ct < 10:
 			$sprite.modulate.r = ct % 2
 			$sprite.modulate.g = .5
@@ -251,3 +284,23 @@ func _playAudioSfx(state, wait_finish=false) -> void:
 				if audioNode.is_playing():
 					yield(audioNode, "finished")
 			audioNode.play()
+
+func _on_water_entered(_water, _altura, _tensao, _amortecimento):
+	if not floating:
+		water = _water
+		water_height = _altura
+		velocity.y /= 4
+		gravity = 0
+		if has_node("barlife"):
+			$barlife.hide()
+		floating = true
+		#yield(get_tree().create_timer(1), "timeout")
+		#_dying()
+
+func _on_water_exited():
+	#yield(get_tree().create_timer(.5),"timeout")
+	gravity = maxGravity
+	water = null
+	floating = false
+	_change_state(states.jump)
+	jumping = true

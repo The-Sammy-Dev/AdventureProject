@@ -26,11 +26,9 @@ animations = [ {
 
 [node name="Coin" type="RigidBody2D"]
 collision_layer = 16
-collision_mask = 64
+collision_mask = 0
 physics_material_override = SubResource( 1 )
 script = ExtResource( 2 )
-_bounce = 50
-_Apply_impulse = Vector2( 0, 600 )
 
 [node name="pick_up" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 1 )
@@ -43,8 +41,7 @@ autoplay = true
 shape = SubResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 129
-collision_mask = 64
+collision_mask = 80
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 3 )

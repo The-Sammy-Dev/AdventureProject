@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Chapters/Begining_Chapter.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Zombie.tscn" type="PackedScene" id=2]
@@ -12,7 +12,6 @@
 [ext_resource path="res://Assets/freetileset/png/Object/Bush (3).png" type="Texture" id=10]
 [ext_resource path="res://Assets/freetileset/png/Object/Tree_2.png" type="Texture" id=11]
 [ext_resource path="res://Assets/freetileset/png/Object/Tree_3.png" type="Texture" id=12]
-[ext_resource path="res://Scenes/Coin.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -24,9 +23,7 @@ _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 2507.04, -161.725, 0, 0, 0, 0, 2216.96, -170.515 )
 }
 
-[node name="BeginingChapter" type="Node2D" groups=[
-"zombie",
-]]
+[node name="BeginingChapter" type="Node2D"]
 position = Vector2( 493.321, 527.474 )
 script = ExtResource( 1 )
 
@@ -156,13 +153,17 @@ loop = false
 
 [node name="Zombie" parent="Path2D2/PathFollow2D" instance=ExtResource( 2 )]
 
-[node name="Coin" parent="." instance=ExtResource( 13 )]
-position = Vector2( 116.564, -2.71722 )
-_bounce = 1
+[node name="Path2D3" type="Path2D" parent="."]
+position = Vector2( -638.073, 93.3765 )
+curve = SubResource( 2 )
 
-[node name="Coin2" parent="." instance=ExtResource( 13 )]
-position = Vector2( 193.89, -9.87708 )
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D3"]
+position = Vector2( 2216.96, -170.515 )
+rotation = -6.28319
+offset = 290.296
+rotate = false
+cubic_interp = false
+loop = false
 
-[node name="Coin3" parent="." instance=ExtResource( 13 )]
-position = Vector2( 307.016, -19.9008 )
-_bounce = 70
+[node name="Zombie" parent="Path2D3/PathFollow2D" instance=ExtResource( 2 )]
+totalDropCoin = 4

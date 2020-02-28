@@ -1,8 +1,6 @@
 extends KinematicBody2D
 
-signal dead
-
-onready var PRE_COIN = preload("res://Scenes/Coin.tscn")
+signal is_died(_position)
 
 var touchable: = true
 export var MaxSoundDist = int(500)
@@ -12,6 +10,7 @@ onready var shape_damage: = $Damage/CollisionShape2D
 onready var damage_area: = $Damage
 onready var anim: = $AnimatedSprite
 export var life: = 1
+export var totalDropCoin: int = 1
 
 var UP: = Vector2(0, -1)
 var can_move: = true
@@ -143,8 +142,8 @@ func fade(val):
 func dead():
 	
 	touchable = false
-	Event.emit_signal("dead", global_position)
-#	emit_signal("dead", global_position)
+	emit_signal("is_died", global_position, totalDropCoin)
+	#emit_signal("dead", global_position)
 	stopAutoFollow = true
 	anim.play("dead")
 	anim.position.y = -8

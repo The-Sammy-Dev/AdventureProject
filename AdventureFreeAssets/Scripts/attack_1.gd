@@ -8,6 +8,8 @@ onready var area_attack: = $CollisionShape2D
 onready var timer: = $Timer
 
 func _ready():
+	add_to_group("player_attack")
+	$CollisionShape2D.add_to_group("player_attack")
 	connect("area_entered", self, "_on_area_entered")
 	
 	timer.connect("timeout", self, "_on_timer_timeout")
@@ -25,12 +27,9 @@ func _process(delta: float) -> void:
 func _on_area_entered(area):
 	nothing_area = false
 	
-	if area.is_in_group("zombie"):
+	if area.get_parent().is_in_group("zombie"):
 		attacking_zombie_song.play()
 	
 func _on_timer_timeout():
 	queue_free()
 	
-		
-	
-

@@ -1,13 +1,27 @@
 extends KinematicBody2D
 
 export var LIFE: = 6
+export var hearth_int =  0
 
 const UP: = Vector2(0, -1)
 
+var hearth_texture = [ 
+		"res://Assets/Sprites/hearth/3.png",
+		"res://Assets/Sprites/hearth/275.png",
+		"res://Assets/Sprites/hearth/2.png",
+		"res://Assets/Sprites/hearth/150.png",
+		"res://Assets/Sprites/hearth/1.png",
+		"res://Assets/Sprites/hearth/meio.png",
+		"res://Assets/Sprites/hearth/morto.png"
+		]
+
 # Lembre-se de colocar as ações nas config do projeto se não não funcionará
+onready var damaged_song: = $sounds/song_damaged
+onready var life_sprite: = $CanvasLayer/Hearth
 onready var move_sound: = $sounds/sound_move
 onready var position2d: = $Position2D
 onready var anim: = $AnimatedSprite
+onready var jump_song: = $sounds/jump
 # Atacking
 onready var PRE_ATTACK: = preload("res://Scenes/attack_1.tscn")
 var input_attack: = false
@@ -23,30 +37,43 @@ var acceleration: = 2000
 var slowdown: = 1800
 var gravity_acceleration: = 4000
 var fall_velocity: = 600
-var jump_velocity: = -1100
+var jump_velocity: = -1250
 var jump_force_factor: = 4
 
-var jump_input: = false
+#var jump_input: = false
 var input_direction: = Vector2()
 var last_input_direction: = Vector2()
 
 var max_current_velocity: = 0.0
 var target_velocity: = 0.0
-
 var current_velocity: = Vector2()
+
+var dead: bool = false
 
 var running = false
 var touchable: = true
+
+var jumping = false
+
+var coins: = 00
 func _ready() -> void:
 	
+	$Player_Damaged_Area.connect("pick_coin", self, "_on_pick_coin")
+	$Player_Damaged_Area.add_to_group("player")
 	max_current_velocity = default_max_velocity
-	
+
 func _process(delta: float) -> void:
 	
 	if !touchable:
+		$Player_Damaged_Area.monitorable = false
+		$Player_Damaged_Area.monitoring = false
 		$Player_Damaged_Area/CollisionShape2D.disabled = true
 	else:
 		$Player_Damaged_Area/CollisionShape2D.disabled = false
+		$Player_Damaged_Area.monitoring = true
+		$Player_Damaged_Area.monitorable = true
+		
+	if dead: return
 		
 	if Input.is_action_pressed("input_run"):
 		running = true
@@ -56,9 +83,9 @@ func _process(delta: float) -> void:
 	if input_direction and input_direction != last_input_direction:# n sei pq ta aqui
 		emit_signal("input_changed")
 	
-	jump_input = Input.is_action_pressed("input_jump")
-	
 func _physics_process(delta: float) -> void:
+	
+	if dead:return
 	
 	input_direction.x = ( 
 				float(Input.is_action_pressed("input_right") ) 
@@ -70,10 +97,13 @@ func _physics_process(delta: float) -> void:
 	sound_move()
 	
 	h_movement(delta)
-	
 	v_movement(delta)
 	
 	move_and_slide(current_velocity, UP)
+	
+func _on_pick_coin() -> void :
+	coins += 01
+	$CanvasLayer/Panel/Label.text = coins as String
 	
 func attacking() -> void :
 	
@@ -125,12 +155,27 @@ func attacking() -> void :
 				can_attack = true
 
 func v_movement(delta) -> void :
-	if not input_attack:
+	
+	var jump_input = int(Input.is_action_pressed("input_jump"))
+	var jump_pressed = int(Input.is_action_just_pressed("input_jump"))
+	var jump_released = int(Input.is_action_just_released("input_jump"))
+	var smooth_factor = 0.5
+	
+	if jump_input:
+		jumping = true
+	
+	if is_on_floor():
+		jumping = false
+	
+	if not input_attack :
 		if is_on_floor() :
 			current_velocity.y = 0
-			
-			if jump_input :
+			if jump_pressed and !jumping :
+				jump_song.play()
 				current_velocity.y = jump_velocity
+			elif jump_released and current_velocity.y < 0 :
+				current_velocity.y *= smooth_factor
+			
 		else:
 			
 			if last_input_direction.x == 1 :
@@ -265,28 +310,49 @@ func _damaged(node: AnimatedSprite ):
 	touchable = true
 
 func on_damaged(area) -> void :
+	damaged_song.play()
 	knockback(area)
 	_damaged(anim)
-	LIFE =- 1
+	
+	LIFE -= 1
+	hearth_int += 1
+	if hearth_int <= 6:
+		life_sprite.texture = load(hearth_texture[hearth_int])
+		update()
+	if LIFE <= 0:
+		print("morto")
+		_died()
 	
 func sound_move():
-	if Input.is_action_pressed("input_right") or Input.is_action_pressed("input_left"):
-		if running:
-			if is_on_floor():
-				move_sound.pitch_scale = .9
-				move_sound.bus = "run"
-				if !move_sound.playing:
-					move_sound.play() 
-			else:
-				move_sound.stop()
-		else:
-			if is_on_floor():
-				move_sound.pitch_scale = .5
-				move_sound.bus = "run"
-				if !move_sound.playing:
-					move_sound.play() 
-			else:
-				move_sound.stop()
-	else:
+	if Input.is_action_pressed("input_left") and Input.is_action_pressed("input_right"): 
 		move_sound.stop()
-
+	else:
+		if Input.is_action_pressed("input_right") or Input.is_action_pressed("input_left"):
+			if running:
+				if is_on_floor():
+					move_sound.pitch_scale = .9
+					move_sound.bus = "run"
+					if !move_sound.playing:
+						move_sound.play() 
+				else:
+					move_sound.stop()
+			else:
+				if is_on_floor():
+					move_sound.pitch_scale = .5
+					move_sound.bus = "walk"
+					if !move_sound.playing:
+						move_sound.play() 
+				else:
+					move_sound.stop()
+		else:
+			move_sound.stop()
+	
+func _died():
+	$sounds/dead_sound.play()
+	if is_in_group("player"):
+		remove_from_group("player")
+	anim.play("dead")
+	dead = true
+	if move_sound.playing :
+		move_sound.stop()
+	#TODO Instanciar um menu

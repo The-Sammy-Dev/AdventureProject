@@ -1,6 +1,3 @@
 extends Node
 
-signal body_entered
-signal player_collide_on_enemy
-signal enemy_entered_on_player
-signal player_attack
+signal dead(global_position)

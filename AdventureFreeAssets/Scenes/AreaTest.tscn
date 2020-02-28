@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Chapters/Begining_Chapter.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Zombie.tscn" type="PackedScene" id=2]
@@ -6,10 +6,17 @@
 [ext_resource path="res://Assets/freetileset/png/BG/3.png" type="Texture" id=4]
 [ext_resource path="res://Assets/freetileset/png/BG/2.png" type="Texture" id=5]
 [ext_resource path="res://Assets/freetileset/png/BG/0.png" type="Texture" id=6]
+[ext_resource path="res://Assets/freetileset/png/BG/1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/freetileset/png/Object/Bush (1).png" type="Texture" id=8]
+[ext_resource path="res://Assets/freetileset/png/Object/Bush (4).png" type="Texture" id=9]
+[ext_resource path="res://Assets/freetileset/png/Object/Bush (3).png" type="Texture" id=10]
+[ext_resource path="res://Assets/freetileset/png/Object/Tree_2.png" type="Texture" id=11]
+[ext_resource path="res://Assets/freetileset/png/Object/Tree_3.png" type="Texture" id=12]
+[ext_resource path="res://Scenes/Coin.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -125.43, 73.574, 0, 0, 0, 0, 226.807, 77.0731, 0, 0, 0, 0, -130.432, 58.7643, 0, 0, 0, 0, -126.115, 80.3489 )
+"points": PoolVector2Array( 0, 0, 0, 0, 226.807, 77.0731, 0, 0, 0, 0, -126.115, 80.3489 )
 }
 
 [sub_resource type="Curve2D" id=2]
@@ -17,7 +24,7 @@ _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 2507.04, -161.725, 0, 0, 0, 0, 2216.96, -170.515 )
 }
 
-[node name="Begining_Chapter" type="Node2D" groups=[
+[node name="BeginingChapter" type="Node2D" groups=[
 "zombie",
 ]]
 position = Vector2( 493.321, 527.474 )
@@ -34,33 +41,86 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
-[node name="layer1" type="ParallaxLayer" parent="ParallaxBackground"]
-z_index = -5
+[node name="layer0" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_mirroring = Vector2( 1280, 960 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
-[node name="0" type="Sprite" parent="ParallaxBackground/layer1"]
-position = Vector2( 636.711, 439.723 )
+[node name="0" type="Sprite" parent="ParallaxBackground/layer0"]
+position = Vector2( 639.784, 469.777 )
 texture = ExtResource( 6 )
 
+[node name="layer1" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.1, 1 )
+motion_mirroring = Vector2( 1280, 960 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="1" type="Sprite" parent="ParallaxBackground/layer1"]
+position = Vector2( 638.961, 508.904 )
+texture = ExtResource( 7 )
+
 [node name="layer2" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.5, 1 )
+motion_scale = Vector2( 0.15, 1 )
 motion_mirroring = Vector2( 1280, 0 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="2" type="Sprite" parent="ParallaxBackground/layer2"]
-position = Vector2( 641.255, 344.237 )
+position = Vector2( 638.961, 469.154 )
 texture = ExtResource( 5 )
 
 [node name="layer3" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.9, 1 )
+motion_scale = Vector2( 0.5, 1 )
 motion_mirroring = Vector2( 1280, 0 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="3" type="Sprite" parent="ParallaxBackground/layer3"]
-position = Vector2( 638.983, 327.244 )
+position = Vector2( 638.961, 315.154 )
 texture = ExtResource( 4 )
+
+[node name="objectslayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 1.2, 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Tree_3" type="Sprite" parent="ParallaxBackground/objectslayer"]
+position = Vector2( 213.66, 477.541 )
+scale = Vector2( 1.3231, 1.3231 )
+texture = ExtResource( 12 )
+
+[node name="Tree_2" type="Sprite" parent="ParallaxBackground/objectslayer"]
+position = Vector2( 330.29, 510.152 )
+texture = ExtResource( 11 )
+
+[node name="Bush (3)" type="Sprite" parent="ParallaxBackground/objectslayer"]
+position = Vector2( 661.321, 625.151 )
+scale = Vector2( 1.43887, 1.43887 )
+texture = ExtResource( 10 )
+
+[node name="Bush (4)" type="Sprite" parent="ParallaxBackground/objectslayer"]
+position = Vector2( 948.277, 636.449 )
+texture = ExtResource( 9 )
+
+[node name="Bush (1)" type="Sprite" parent="ParallaxBackground/objectslayer"]
+position = Vector2( 1038.02, 611.553 )
+scale = Vector2( 1.48821, 1.48821 )
+texture = ExtResource( 8 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="Path2D" type="Path2D" parent="."]
 position = Vector2( 900, 0 )
@@ -70,7 +130,7 @@ __meta__ = {
 }
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2( -125.43, 73.574 )
+position = Vector2( 226.807, 77.0731 )
 rotation = 0.0099338
 rotate = false
 loop = false
@@ -79,7 +139,6 @@ __meta__ = {
 }
 
 [node name="Zombie" parent="Path2D/PathFollow2D" instance=ExtResource( 2 )]
-lenght = 300
 
 [node name="Spawn" type="Position2D" parent="."]
 position = Vector2( -410.727, -45.9185 )
@@ -96,3 +155,14 @@ cubic_interp = false
 loop = false
 
 [node name="Zombie" parent="Path2D2/PathFollow2D" instance=ExtResource( 2 )]
+
+[node name="Coin" parent="." instance=ExtResource( 13 )]
+position = Vector2( 116.564, -2.71722 )
+_bounce = 1
+
+[node name="Coin2" parent="." instance=ExtResource( 13 )]
+position = Vector2( 193.89, -9.87708 )
+
+[node name="Coin3" parent="." instance=ExtResource( 13 )]
+position = Vector2( 307.016, -19.9008 )
+_bounce = 70

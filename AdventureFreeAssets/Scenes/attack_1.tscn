@@ -22,6 +22,8 @@ wait_time = 0.3
 
 [node name="ATTACK_ZOMBIE" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 2 )
+volume_db = -7.0
 
 [node name="NO_HIT" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 3 )
+volume_db = -10.0

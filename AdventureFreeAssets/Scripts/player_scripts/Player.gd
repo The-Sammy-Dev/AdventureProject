@@ -159,7 +159,7 @@ func attacking() -> void :
 				
 				jump_attacking = false
 				
-				yield(get_tree().create_timer(1),"timeout")
+				yield(get_tree().create_timer(.5),"timeout")
 				
 				can_attack = true
 
@@ -293,9 +293,9 @@ func begin(current_val, target_val, variation) -> float :
 	
 	return target_val
 
-func knockback(area) -> void :
+func knockback(body) -> void :
 	var knockback_speed = 1000
-	var direction = (global_position - area.global_position).normalized()
+	var direction = (global_position - body.global_position).normalized()
 	current_velocity = direction * knockback_speed
 	
 func _damaged(node: AnimatedSprite ):
@@ -318,9 +318,9 @@ func _damaged(node: AnimatedSprite ):
 	yield(get_tree().create_timer(.3),"timeout")
 	touchable = true
 
-func on_damaged(area) -> void :
+func on_damaged(body) -> void :
 	damaged_song.play()
-	knockback(area)
+	knockback(body)
 	_damaged(anim)
 	
 	piece_heart -= 1
@@ -363,3 +363,4 @@ func _died():
 	if move_sound.playing :
 		move_sound.stop()
 	#TODO Instanciar um menu
+	# Emitir um sinal

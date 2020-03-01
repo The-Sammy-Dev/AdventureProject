@@ -79,7 +79,7 @@
 [ext_resource path="res://Assets/Sprites/Coin1.png" type="Texture" id=77]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 16.3334
+radius = 23.9194
 height = 75.0539
 
 [sub_resource type="SpriteFrames" id=2]
@@ -126,7 +126,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 27.0043, 56.5679 )
+extents = Vector2( 35.2787, 67.1013 )
 
 [sub_resource type="StyleBoxEmpty" id=4]
 
@@ -150,7 +150,7 @@ smoothing_enabled = true
 drag_margin_right = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0.703582, 3.78161 )
+position = Vector2( 0.703582, -0.21839 )
 shape = SubResource( 1 )
 
 [node name="Position2D" type="Position2D" parent="."]

@@ -4,6 +4,7 @@ var dir = 1
 var touchable = true
 var gravity = 1
 var is_on_floor = false
+
 func _ready() -> void:
 	
 	add_to_group("hearth")
@@ -41,7 +42,9 @@ func _picked():
 	$pick.play()
 	
 func _on_body_entered(body):
-	is_on_floor = true
-	gravity = 0
-	dir = 0
+	
+	if body.is_in_group("wall"):
+		is_on_floor = true
+		gravity = 0
+		dir = 0
 

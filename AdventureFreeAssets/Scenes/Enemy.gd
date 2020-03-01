@@ -18,12 +18,12 @@ var auto_follow: PathFollow2D = null
 var dir_follow: int = 1
 export var velocity_follow: float = 0.2
 var stopAutoFollow: bool = false
-var area_entered: Area2D
-var random_item
+#var area_entered: Area2D
+var body_entered: KinematicBody2D
+var die = false
 
 func _ready():
 	randomize()
-	
 	
 	$Idle_sounds/idle_song1.max_distance = MaxSoundDist
 	$Idle_sounds/idle_song2.max_distance = MaxSoundDist
@@ -38,38 +38,44 @@ func _ready():
 	
 	damage_area.connect("area_exited", self, "_on_area_damage_exit")
 	damage_area.connect("area_entered", self, "_on_damage_area_entered")
+	damage_area.connect("body_entered", self, "_on_body_entered")
+	damage_area.connect("body_exited", self, "_on_body_exited")
 	
 	timer_song.connect("timeout",self, "_on_timer_song_timeout")
 	timer_song.start()
 	
-
-func _on_area_damage_exit(area):
-	if stopAutoFollow : 
+func _on_body_exited(body):
+	if die:
 		return
+	if body.is_in_group("player"):
+		body_entered = null
+		if anim.is_playing():
+			yield(anim,"animation_finished")
+			stopAutoFollow = false
+			
+func _on_body_entered(body):
 	
-	if area.is_in_group("player"):
-		area_entered = null
-		stopAutoFollow = false
-	
-func _on_damage_area_entered(area):
-	
+	if die :
+		return
 	if stopAutoFollow:
 		return
 	
-	if weakref(area_entered).get_ref():
-		var dir: float = area_entered.global_position.x - self.global_position.x
-		anim.flip_h = dir < 0
-	
-	if area.is_in_group("player") :
+	if body.is_in_group("player") :
 		stopAutoFollow = true
-		anim.play("attack") 
-		area_entered = area
+		anim.play("attack")
+		if weakref(body).get_ref():
+			var dir: float = body.global_position.x - self.global_position.x
+			anim.flip_h = dir < 0
+		 
+		body_entered = body
 		$SoundsEffects/atk_sound.play()
-		var area_entered = area
-		
-		yield(get_tree().create_timer(1),"timeout")
-		stopAutoFollow = false
+		var body_entered = body
+
+func _on_area_damage_exit(area):
+	pass
 	
+func _on_damage_area_entered(area):
+
 	if area.is_in_group("player_attack"):
 		life -= 1
 		
@@ -79,6 +85,7 @@ func _on_damage_area_entered(area):
 		if life <= 0 :
 			$SoundsEffects/dead_song.play()
 			dead()
+
 			
 func _process(delta: float) -> void:
 #	if stopAutoFollow : 
@@ -86,7 +93,12 @@ func _process(delta: float) -> void:
 	if !touchable :
 		$Damage/CollisionShape2D.disabled = true
 		$CollisionShape2D.disabled = true
+	
 func _physics_process(delta: float) -> void:
+	
+	if die:
+		return
+	
 	if stopAutoFollow : 
 		return
 	
@@ -139,6 +151,7 @@ func fade(val):
 
 func dead():
 	
+	die = true
 	touchable = false
 	emit_signal("is_died", global_position, totalDropCoin)
 	#emit_signal("dead", global_position)

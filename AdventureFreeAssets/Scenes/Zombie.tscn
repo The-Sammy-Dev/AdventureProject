@@ -52,7 +52,7 @@
 [ext_resource path="res://Assets/songs/zombie-18.wav" type="AudioStream" id=50]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 22.3356
+radius = 34.2532
 height = 12.8889
 
 [sub_resource type="SpriteFrames" id=2]
@@ -73,13 +73,13 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 37 ), ExtResource( 15 ), ExtResource( 10 ), ExtResource( 4 ), ExtResource( 19 ), ExtResource( 3 ), ExtResource( 16 ) ],
-"loop": false,
+"loop": true,
 "name": "attack",
 "speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 46.4837, 34.0101 )
+extents = Vector2( 41.2166, 34.0101 )
 
 [node name="Zombie" type="KinematicBody2D" groups=[
 "zombie",
@@ -92,7 +92,7 @@ position = Vector2( -0.296753, 0 )
 scale = Vector2( 20, 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1.05261, 13 )
+position = Vector2( -1.05261, 1 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

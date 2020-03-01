@@ -1,31 +1,29 @@
 extends KinematicBody2D
 
-signal dead
-
-onready var PRE_COIN = preload("res://Scenes/Coin.tscn")
+signal is_died(_position)
 
 var touchable: = true
 export var MaxSoundDist = int(500)
 
 onready var timer_song: = $Timer
-onready var shape_damage: = $Damage/CollisionShape2D
 onready var damage_area: = $Damage
 onready var anim: = $AnimatedSprite
 export var life: = 1
+export var totalDropCoin: int = 1
 
 var UP: = Vector2(0, -1)
-var can_move: = true
 var direction: = Vector2(0, 0)
 
 var auto_follow: PathFollow2D = null
 var dir_follow: int = 1
 export var velocity_follow: float = 0.2
 var stopAutoFollow: bool = false
-#var coin
 var area_entered: Area2D
-var instance_coin = false
+var random_item
+
 func _ready():
 	randomize()
+	
 	
 	$Idle_sounds/idle_song1.max_distance = MaxSoundDist
 	$Idle_sounds/idle_song2.max_distance = MaxSoundDist
@@ -44,6 +42,7 @@ func _ready():
 	timer_song.connect("timeout",self, "_on_timer_song_timeout")
 	timer_song.start()
 	
+
 func _on_area_damage_exit(area):
 	if stopAutoFollow : 
 		return
@@ -64,7 +63,6 @@ func _on_damage_area_entered(area):
 	if area.is_in_group("player") :
 		stopAutoFollow = true
 		anim.play("attack") 
-		print("plater")
 		area_entered = area
 		$SoundsEffects/atk_sound.play()
 		var area_entered = area
@@ -73,7 +71,6 @@ func _on_damage_area_entered(area):
 		stopAutoFollow = false
 	
 	if area.is_in_group("player_attack"):
-		print("playeratk")
 		life -= 1
 		
 		if life > 0:
@@ -88,7 +85,7 @@ func _process(delta: float) -> void:
 #		return
 	if !touchable :
 		$Damage/CollisionShape2D.disabled = true
-	
+		$CollisionShape2D.disabled = true
 func _physics_process(delta: float) -> void:
 	if stopAutoFollow : 
 		return
@@ -143,8 +140,8 @@ func fade(val):
 func dead():
 	
 	touchable = false
-	Event.emit_signal("dead", global_position)
-#	emit_signal("dead", global_position)
+	emit_signal("is_died", global_position, totalDropCoin)
+	#emit_signal("dead", global_position)
 	stopAutoFollow = true
 	anim.play("dead")
 	anim.position.y = -8

@@ -9,21 +9,17 @@ export var _GravityScale: = 10
 export var _Apply_impulse: Vector2 = Vector2(0, -10)
 var touchable: bool = true
 
-onready var _area: = $Area2D
 onready var shape_coin: = $CollisionShape2D
-onready var area_shape: = $Area2D/CollisionShape2D
 
+var initialPos = Vector2.ZERO
 
 func _ready():
 	add_to_group("coin")
+	initialPos = self.global_position
 	
-#	if !_stay:
-#		apply_central_impulse(_Apply_impulse)
-	$Area2D.connect("area_entered", self, "_on_area_entered")
-#	if !$fall.playing :
-#		$fall.play()
-	$Area2D/Anim.play("idle")
+	$Anim.play("idle")
 	$del.connect("timeout", self, "_on_del_timeout")
+	connect("body_entered", self, "_on_body_entered")
 	
 	physics_material_override.bounce = _bounce
 	linear_damp = _Damp
@@ -37,15 +33,33 @@ func _on_del_timeout() -> void :
 
 func _process(delta: float) -> void:
 	if !touchable:
+		$CollisionShape2D.disabled = true
 		pass
-func _on_area_entered(area):
-	if area.is_in_group("player"):
-		if !$pick_up.playing :
+
+func _integrate_forces(state):
+	state.angular_velocity = 0
+	# pra ela parar de rotacionar e ficar sempre no meio, como é um rigidbody
+	# se algo bater ela vai saltar pra outro lugar rotacionando
+	# toda vez que for alterar a física de um rigidbody precisa ser no _integrate_forces e não no _process ou _physics_process
+	
+
+# o player é um body, então precisa ser nesse sinal de body entered
+func _on_body_entered(body) :
+	if body.is_in_group("player"):
+		if !$pick_up.is_playing():
 			$pick_up.play()
 		print("player colidiu")
 		$fall.stop()
 		touchable = false
 		$del.start()
 		$Area2D/Anim.visible = false
-	else: 
-		return
+
+func pick_coin():
+	if !$pick_up.is_playing():
+		$pick_up.play()
+	print("player colidiu")
+	$fall.stop()
+	touchable = false
+	$del.start()
+	$Anim.visible = false
+	

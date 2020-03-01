@@ -1,23 +1,22 @@
 extends KinematicBody2D
 
-export var LIFE: = 6
-export var hearth_int =  0
+export var piece_heart: int = 6
 
 const UP: = Vector2(0, -1)
 
 var hearth_texture = [ 
-		"res://Assets/Sprites/hearth/3.png",
-		"res://Assets/Sprites/hearth/275.png",
-		"res://Assets/Sprites/hearth/2.png",
-		"res://Assets/Sprites/hearth/150.png",
-		"res://Assets/Sprites/hearth/1.png",
+		"res://Assets/Sprites/hearth/morto.png",
 		"res://Assets/Sprites/hearth/meio.png",
-		"res://Assets/Sprites/hearth/morto.png"
+		"res://Assets/Sprites/hearth/1.png",
+		"res://Assets/Sprites/hearth/150.png",
+		"res://Assets/Sprites/hearth/2.png",
+		"res://Assets/Sprites/hearth/275.png",
+		"res://Assets/Sprites/hearth/3.png",
 		]
 
 # Lembre-se de colocar as ações nas config do projeto se não não funcionará
 onready var damaged_song: = $sounds/song_damaged
-onready var life_sprite: = $CanvasLayer/Hearth
+onready var life_sprite: = $CanvasLayer/HearthBar
 onready var move_sound: = $sounds/sound_move
 onready var position2d: = $Position2D
 onready var anim: = $AnimatedSprite
@@ -56,14 +55,15 @@ var touchable: = true
 var jumping = false
 
 var coins: = 00
+
 func _ready() -> void:
+	randomize()
 	
 	$Player_Damaged_Area.connect("pick_coin", self, "_on_pick_coin")
 	$Player_Damaged_Area.add_to_group("player")
 	max_current_velocity = default_max_velocity
-
-func _process(delta: float) -> void:
 	
+func _process(delta: float) -> void:
 	if !touchable:
 		$Player_Damaged_Area.monitorable = false
 		$Player_Damaged_Area.monitoring = false
@@ -104,7 +104,16 @@ func _physics_process(delta: float) -> void:
 func _on_pick_coin() -> void :
 	coins += 01
 	$CanvasLayer/Panel/Label.text = coins as String
+
+func _pick_life(ammount: int):
 	
+	if piece_heart < 6 :
+		piece_heart += ammount
+		if piece_heart >= 7 :
+			piece_heart = 6
+		life_sprite.texture = load(hearth_texture[piece_heart])
+		update()
+		
 func attacking() -> void :
 	
 	if last_input_direction.x == 1 :
@@ -127,7 +136,7 @@ func attacking() -> void :
 		
 		input_attack = false
 		
-		yield(get_tree().create_timer(1),"timeout")
+		yield(get_tree().create_timer(.5),"timeout")
 		
 		can_attack = true
 	
@@ -314,13 +323,11 @@ func on_damaged(area) -> void :
 	knockback(area)
 	_damaged(anim)
 	
-	LIFE -= 1
-	hearth_int += 1
-	if hearth_int <= 6:
-		life_sprite.texture = load(hearth_texture[hearth_int])
-		update()
-	if LIFE <= 0:
-		print("morto")
+	piece_heart -= 1
+	life_sprite.texture = load(hearth_texture[piece_heart])
+	update()
+	
+	if piece_heart <= 0:
 		_died()
 	
 func sound_move():

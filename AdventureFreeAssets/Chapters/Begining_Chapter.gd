@@ -1,4 +1,5 @@
 extends Node2D
+
 # Usar esse script para todas as fases (se n for alterar nada grande)
 onready var spawn_local: = $Spawn
 onready var PRE_COIN = preload("res://Scenes/Coin.tscn")
@@ -23,10 +24,10 @@ func _ready():
 		var coin = PRE_COIN.instance()
 		add_child(coin) # esse precisa ficar antes de setar a posição abaixo
 		coin.global_position = spawn_local.global_position + Vector2(300 + (90 * i), -50)
-		
+	
 func _on_game_over():
 	pass
-
+	
 func _on_zombie_dead(_position, _totalCoin = 1):
 	random_item = randi()%11+1
 
@@ -46,3 +47,5 @@ func _on_zombie_dead(_position, _totalCoin = 1):
 		get_tree().get_root().call_deferred("add_child", heart)
 		_position.y += -30
 		heart.global_position = _position 
+	
+

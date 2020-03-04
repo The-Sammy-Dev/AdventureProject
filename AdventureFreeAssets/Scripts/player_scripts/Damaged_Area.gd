@@ -27,7 +27,7 @@ func _on_body_entered(body):
 		print("pegou coração")
 		if !get_parent().dead:
 			if get_parent().has_method("_pick_life"):
-				get_parent()._pick_life(4)
+				get_parent()._pick_life(2)
 		if body.has_method("_picked"):
 			body._picked()
 				

@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal game_pause
+
 export var piece_heart: int = 6
 
 const UP: = Vector2(0, -1)
@@ -21,10 +23,15 @@ onready var move_sound: = $sounds/sound_move
 onready var position2d: = $Position2D
 onready var anim: = $AnimatedSprite
 onready var jump_song: = $sounds/jump
+
+onready var PRE_PAUSE = preload("res://Scenes/PauseMenu.tscn")
+
 # Atacking
+
 onready var PRE_ATTACK: = preload("res://Scenes/attack_1.tscn")
 var input_attack: = false
 var can_attack: = true
+var can_air_attack = true
 # Movement.x and jump
 signal input_changed
 # TESTE
@@ -59,6 +66,7 @@ var coins: = 00
 func _ready() -> void:
 	randomize()
 	
+	Event.connect("resume_game", self, "_on_Event_resume_game")
 	$Player_Damaged_Area.connect("pick_coin", self, "_on_pick_coin")
 	$Player_Damaged_Area.add_to_group("player")
 	max_current_velocity = default_max_velocity
@@ -83,6 +91,10 @@ func _process(delta: float) -> void:
 	if input_direction and input_direction != last_input_direction:# n sei pq ta aqui
 		emit_signal("input_changed")
 	
+
+#		pause_menu.set_global_position(Vector2( 0, 0))
+#		get_tree().paused = true
+#
 func _physics_process(delta: float) -> void:
 	
 	if dead:return
@@ -141,9 +153,9 @@ func attacking() -> void :
 		can_attack = true
 	
 	if !is_on_floor(): # Jump Attack
-		if Input.is_action_pressed("input_attack") and can_attack:
+		if Input.is_action_pressed("input_attack") and can_air_attack:
 				
-				can_attack = false
+				can_air_attack = false
 				jump_attacking = true
 				
 				anim.stop()
@@ -161,7 +173,7 @@ func attacking() -> void :
 				
 				yield(get_tree().create_timer(.5),"timeout")
 				
-				can_attack = true
+				can_air_attack = true
 
 func v_movement(delta) -> void :
 	
@@ -364,3 +376,12 @@ func _died():
 		move_sound.stop()
 	#TODO Instanciar um menu
 	# Emitir um sinal
+func _input(event: InputEvent) -> void:
+#	if event.is_action_pressed("input_pause"):
+	pass
+#		Event.emit_signal("game_paused")
+		
+func _on_Event_resume_game():
+	print("gameresmu")
+	pass
+

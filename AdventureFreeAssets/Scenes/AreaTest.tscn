@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Chapters/Begining_Chapter.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Zombie.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Assets/freetileset/png/Object/Tree_2.png" type="Texture" id=11]
 [ext_resource path="res://Assets/freetileset/png/Object/Tree_3.png" type="Texture" id=12]
 [ext_resource path="res://Scenes/HearthRB.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Assets/songs/Autumn Forest.wav" type="AudioStream" id=14]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -119,6 +120,9 @@ scale = Vector2( 1.48821, 1.48821 )
 texture = ExtResource( 8 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 14 )
+pitch_scale = 2.0
+autoplay = true
 
 [node name="Path2D" type="Path2D" parent="."]
 position = Vector2( 900, 0 )

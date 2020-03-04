@@ -1,0 +1,325 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://swordbutton.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Oxanium-Medium.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/IndieFlower-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Scripts/PauseMenu.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Sprites/png_icon.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sprites/bar_options.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/SoundBar.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/SoundsEffects.gd" type="Script" id=8]
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 696, 2997 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 696, 2997 )
+modulate_color = Color( 0.403922, 0.403922, 0.396078, 1 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 696, 2997 )
+modulate_color = Color( 0.823529, 0.823529, 0.823529, 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 30
+extra_spacing_bottom = 200
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 45
+outline_color = Color( 1, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="Animation" id=6]
+resource_name = "pause"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("ExitButton:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 526.964, 307.929 ), Vector2( -39.4819, 307.929 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("OptionsButton:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 592.346, 211.136 ), Vector2( 22.4507, 211.136 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ResumeButton:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 662.073, 114.327 ), Vector2( 99.012, 114.327 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ResumeButton:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("OptionsButton:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("ExitButton:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="DynamicFont" id=7]
+size = 35
+font_data = ExtResource( 3 )
+
+[node name="PauseMenu" type="Control"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -853.111
+margin_top = -537.85
+margin_right = -474.111
+margin_bottom = -213.85
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -594.151
+margin_top = -296.85
+margin_right = 1046.85
+margin_bottom = 699.15
+color = Color( 0, 0, 0, 0.627451 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResumeButton" type="Button" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 472.573
+margin_top = -47.6732
+margin_right = 817.572
+margin_bottom = 624.327
+grow_horizontal = 0
+grow_vertical = 0
+rect_rotation = -90.0
+rect_scale = Vector2( 0.2, 0.5 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="ResumeButton"]
+modulate = Color( 0.223529, 0.0823529, 0, 1 )
+margin_left = 244.04
+margin_top = 116.533
+margin_right = 545.04
+margin_bottom = 206.533
+grow_horizontal = 0
+grow_vertical = 0
+rect_rotation = 90.0
+rect_scale = Vector2( 1, 2 )
+custom_fonts/font = SubResource( 5 )
+text = "Resume Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionsButton" type="Button" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = -0.114
+anchor_right = 1.397
+anchor_bottom = 1.224
+margin_left = 635.552
+margin_top = 211.136
+margin_right = 407.883
+margin_bottom = 486.56
+grow_horizontal = 0
+grow_vertical = 0
+rect_rotation = -90.0
+rect_scale = Vector2( 0.2, 0.5 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="OptionsButton"]
+modulate = Color( 0.223529, 0.0823529, 0, 1 )
+anchor_left = -2.542
+anchor_top = -0.393
+anchor_right = 2.953
+anchor_bottom = 1.216
+margin_left = 1125.15
+margin_top = 467.956
+margin_right = -621.624
+margin_bottom = -523.292
+grow_horizontal = 0
+grow_vertical = 0
+rect_rotation = 90.0
+rect_scale = Vector2( 1, 2 )
+custom_fonts/font = SubResource( 5 )
+text = "Options"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExitButton" type="Button" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.115
+anchor_top = 0.732
+anchor_right = 1.0
+anchor_bottom = 0.945
+margin_left = 483.379
+margin_top = 70.7615
+margin_right = 492.964
+margin_bottom = 673.75
+grow_horizontal = 0
+grow_vertical = 0
+rect_rotation = -90.0
+rect_scale = Vector2( 0.2, 0.5 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="ExitButton"]
+modulate = Color( 0.223529, 0.0823529, 0, 1 )
+anchor_top = 0.038
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 240.716
+margin_top = 123.87
+margin_right = 238.716
+margin_bottom = -387.594
+grow_horizontal = 0
+grow_vertical = 0
+rect_rotation = 90.0
+rect_scale = Vector2( 1, 2 )
+custom_fonts/font = SubResource( 5 )
+text = "Exit To Menu
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+playback_speed = 5.0
+anims/pause = SubResource( 6 )
+
+[node name="SoundsEffects" type="HSlider" parent="."]
+visible = false
+margin_left = -143.226
+margin_top = 239.278
+margin_right = 181.774
+margin_bottom = 272.278
+custom_icons/tick = ExtResource( 6 )
+custom_icons/grabber_highlight = ExtResource( 5 )
+custom_icons/grabber = ExtResource( 5 )
+min_value = -40.0
+max_value = 0.0
+value = -15.0
+tick_count = 1
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SoundsEffects"]
+margin_left = 19.7197
+margin_top = -63.4229
+margin_right = 248.72
+margin_bottom = 1.57709
+custom_fonts/font = SubResource( 7 )
+text = "Sounds Effects"
+
+[node name="SoundBar" type="HSlider" parent="."]
+visible = false
+margin_left = -143.226
+margin_top = 385.315
+margin_right = 181.774
+margin_bottom = 418.315
+custom_icons/tick = ExtResource( 6 )
+custom_icons/grabber_highlight = ExtResource( 5 )
+custom_icons/grabber = ExtResource( 5 )
+min_value = -30.0
+max_value = -5.0
+value = -10.0
+tick_count = 1
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="SoundBar"]
+margin_left = 101.644
+margin_top = -61.4687
+margin_right = 200.644
+margin_bottom = 3.53127
+custom_fonts/font = SubResource( 7 )
+text = "Music"
+__meta__ = {
+"_edit_use_anchors_": false
+}

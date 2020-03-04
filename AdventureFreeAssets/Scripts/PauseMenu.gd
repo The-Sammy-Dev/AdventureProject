@@ -22,7 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		_pause_and_resume()
 		
 func _pause_and_resume():
-	if anim.current_animation_position > 0 and !get_tree().paused:return
+	if anim.current_animation_position > 0 and in_options_button:return
 	if get_tree().paused :
 		if in_options_button:
 			sound_bar.visible = false

@@ -1,0 +1,102 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scenes/SoundsEffects.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/SoundBar.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Sprites/png_icon.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Sprites/bar_options.png" type="Texture" id=4]
+[ext_resource path="res://Assets/IndieFlower-Regular.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Scenes/FullScreen.gd" type="Script" id=6]
+
+[sub_resource type="DynamicFont" id=7]
+size = 35
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 35
+font_data = ExtResource( 5 )
+
+[node name="InOptions" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SoundsEffects" type="HSlider" parent="."]
+visible = false
+margin_left = -143.226
+margin_top = 239.278
+margin_right = 181.774
+margin_bottom = 272.278
+custom_icons/tick = ExtResource( 4 )
+custom_icons/grabber_highlight = ExtResource( 3 )
+custom_icons/grabber = ExtResource( 3 )
+min_value = -40.0
+max_value = 0.0
+value = -15.0
+tick_count = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="SoundsEffects"]
+margin_left = 19.7197
+margin_top = -63.4229
+margin_right = 248.72
+margin_bottom = 1.57709
+custom_fonts/font = SubResource( 7 )
+text = "Sounds Effects"
+
+[node name="SoundBar" type="HSlider" parent="."]
+visible = false
+margin_left = -143.226
+margin_top = 385.315
+margin_right = 181.774
+margin_bottom = 418.315
+custom_icons/tick = ExtResource( 4 )
+custom_icons/grabber_highlight = ExtResource( 3 )
+custom_icons/grabber = ExtResource( 3 )
+min_value = -30.0
+max_value = -5.0
+value = -10.0
+tick_count = 1
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="SoundBar"]
+margin_left = 101.644
+margin_top = -61.4687
+margin_right = 200.644
+margin_bottom = 3.53127
+custom_fonts/font = SubResource( 7 )
+text = "Music"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FullScreen" type="CheckBox" parent="."]
+visible = false
+margin_left = -140.0
+margin_top = 100.0
+margin_right = -114.0
+margin_bottom = 124.0
+rect_scale = Vector2( 2, 2 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="FullScreen"]
+margin_left = 28.9028
+margin_top = -0.437675
+margin_right = 127.903
+margin_bottom = 64.5623
+rect_scale = Vector2( 0.5, 0.5 )
+custom_fonts/font = SubResource( 8 )
+text = "Full Screen"
+__meta__ = {
+"_edit_use_anchors_": false
+}

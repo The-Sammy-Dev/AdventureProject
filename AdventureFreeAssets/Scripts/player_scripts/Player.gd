@@ -87,14 +87,13 @@ func _on_magic_timer_timeout():
 	_can_input_magic = true
 	
 func _input(event: InputEvent) -> void:
-	
 	_fireball()
-		
+	_hook()
+	
 func _on_area_impulse():
 	current_velocity.y = jump_velocity
 
 func _process(delta: float) -> void:
-	
 	if !touchable:
 		$Player_Damaged_Area.monitorable = false
 		$Player_Damaged_Area.monitoring = false
@@ -115,14 +114,12 @@ func _process(delta: float) -> void:
 		emit_signal("input_changed")
 	
 func _physics_process(delta: float) -> void:
-	
 	if !_can_move :return
 	
 	input_direction.x = ( 
 				float(Input.is_action_pressed("input_right") ) 
 				- float(Input.is_action_pressed("input_left") )
 				)
-	
 	
 	sound_move()
 	attacking()
@@ -138,7 +135,6 @@ func _on_pick_coin() -> void :
 	$CanvasLayer/Panel/Label.text = coins as String
 
 func _pick_life(ammount: int):
-	
 	if piece_heart < 6 :
 		piece_heart += ammount
 		if piece_heart >= 7 :
@@ -191,6 +187,15 @@ func attacking() -> void :
 				
 				can_air_attack = true
 
+func _hook():
+	if Input.is_action_just_pressed("hook_input"):
+		_can_move = false
+		if anim.playing :
+			anim.stop()
+#		current_velocity.x = 0
+	if Input.is_action_just_released("hook_input"):
+		_can_move = true
+	
 func v_movement(delta) -> void :
 	if !_can_move : return
 	
@@ -477,22 +482,17 @@ func _fireball():
 				fireball.scale.y =+ abs(3.1)
 				MAGIC -= 2
 				_change_texture(MAGIC, magic_sprite, magic_texture)
-				print("max")
-			
 			elif elapse_time > fireball_medium_scale and elapse_time < fireball_max_scale and MAGIC > 1 :
 				fireball.scale.x =+ abs(1.7)
 				fireball.scale.y =+ abs(1.7)
 				MAGIC -= 2
 				_change_texture(MAGIC, magic_sprite, magic_texture)
-				print("medium")
-			
 			else :
 				fireball.scale.y =+ abs(1)
 				fireball.scale.y =+ abs(1)
 				MAGIC -= 1
 				_change_texture(MAGIC, magic_sprite, magic_texture)
 				print("small")
-			
 				
 			yield(anim, "animation_finished")
 			

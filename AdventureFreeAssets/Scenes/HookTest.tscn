@@ -1,0 +1,126 @@
+[gd_scene load_steps=6 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 676.252, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 48.8937, 54.9107 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends KinematicBody2D
+var mouse_position
+var UP = Vector2(0, -1)
+var vel = 500
+var dir = Vector2()
+var gravity = 5
+onready var raycast: = $RayCast2D
+var _hooked = false
+var PRE_IMPACT = preload(\"res://teste/impact_area.tscn\")
+var PRE_HOOK = preload(\"res://teste/hook_init.tscn\")
+onready var pin: = $PinJoint2D
+
+func _ready():
+	Event.connect(\"hook_impact\", self, \"_on_hook_impact\")
+	pass
+
+func _physics_process(delta: float) -> void:
+	mouse_position = get_local_mouse_position()
+	
+	if !is_on_floor() and !_hooked:
+		dir.y += gravity * delta
+	if is_on_floor():
+		dir.y = 0
+	
+	if Input.is_action_pressed(\"input_left\"):
+		dir.x = -1
+	if Input.is_action_pressed(\"input_right\"):
+		dir.x = 1
+	if !Input.is_action_pressed(\"input_right\") and !Input.is_action_pressed(\"input_left\"):
+		dir.x = 0
+	_hook(delta)
+	
+	move_and_slide(dir * vel, UP)  
+	
+func _hook(delta):
+	var impact_hook
+	var pre_hook
+	if InputEventMouse:
+		if Input.is_mouse_button_pressed(1):
+			raycast.cast_to = mouse_position
+	
+	if raycast.is_colliding():
+		var point = raycast.get_collision_point()
+	
+		_hooked = true
+#		pin.node_a = point
+#		pin.node_b = body_hook
+		
+		if position.y < point.y :
+			position.y += 1 * point.y * delta
+		if position.y > point.y :
+			position.y -= 1 * point.y * delta
+		if position.x < point.x :
+			position.x += 1 * point.x * delta
+		if position.x > point.x :
+			position.x -= 1 * point.x * delta
+	if !Input.is_mouse_button_pressed(1):
+		_hooked = false
+		raycast.cast_to = Vector2(0, 0)
+		
+"
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 17.2493, 29.9005 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 14.6316, 16.1902 )
+
+[node name="HookTest" type="Node2D"]
+
+[node name="chao" type="StaticBody2D" parent="."]
+position = Vector2( 621.975, 680.682 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="chao"]
+position = Vector2( 1.21381, -1.27124 )
+shape = SubResource( 1 )
+
+[node name="Test" type="StaticBody2D" parent="."]
+position = Vector2( 444.82, 284.15 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Test"]
+position = Vector2( -2.17429, -3.50592 )
+shape = SubResource( 2 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+position = Vector2( 453.669, 533.269 )
+script = SubResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+position = Vector2( -2.86395, -4.2959 )
+shape = SubResource( 4 )
+
+[node name="RayCast2D" type="RayCast2D" parent="KinematicBody2D"]
+enabled = true
+cast_to = Vector2( 10, 10 )
+
+[node name="PinJoint2D" type="PinJoint2D" parent="KinematicBody2D"]
+position = Vector2( 19.8549, -208.072 )
+node_a = NodePath("../../Test")
+node_b = NodePath("..")
+
+[node name="teste" type="RigidBody2D" parent="."]
+position = Vector2( 307.444, 462.527 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="teste"]
+shape = SubResource( 5 )
+
+[node name="PinJoint2D" type="PinJoint2D" parent="teste"]
+position = Vector2( 131.765, -135.375 )
+node_a = NodePath("../../Test")
+node_b = NodePath("..")

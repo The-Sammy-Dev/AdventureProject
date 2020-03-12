@@ -1,4 +1,4 @@
 extends Node
 
-signal game_paused
-signal resume_game
+signal hook_impact
+signal hook_degress

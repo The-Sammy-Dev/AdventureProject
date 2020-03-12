@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 10.1655
+
+[node name="hook" type="Node2D"]
+position = Vector2( 236.739, 145.38 )
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PoolVector2Array( 24.1308, -16.6429 )
+width = 100.0
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Area2D" type="Area2D" parent="Line2D"]
+position = Vector2( -26.5279, 0.716965 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Line2D/Area2D"]
+position = Vector2( 0, 1.07547 )
+shape = SubResource( 1 )
+
+[node name="Area2D2" type="Area2D" parent="Line2D"]
+position = Vector2( 31.9052, 3.22636 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Line2D/Area2D2"]
+position = Vector2( 0.358498, -0.71698 )
+shape = SubResource( 1 )

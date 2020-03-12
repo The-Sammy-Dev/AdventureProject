@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Sprites/fireball_0.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/FireBall.gd" type="Script" id=2]
+[ext_resource path="res://Assets/songs/Fireball.wav" type="AudioStream" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 5.74764
+height = 46.1841
+
+[node name="FireBall" type="Area2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+vframes = 8
+hframes = 8
+frame = 1
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+playback_speed = 2.0
+anims/idle = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.0200996, -0.253933 )
+rotation = 1.5708
+shape = SubResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 0.522581, -0.611372 )
+scale = Vector2( 3.03907, 1 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+autoplay = true
+max_distance = 700.0

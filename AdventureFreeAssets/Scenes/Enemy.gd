@@ -5,6 +5,7 @@ signal is_died(_position)
 var touchable: = true
 export var MaxSoundDist = int(500)
 
+onready var anim_burning : = $IsBurning
 onready var timer_song: = $Timer
 onready var damage_area: = $Damage
 onready var anim: = $AnimatedSprite
@@ -24,6 +25,7 @@ var die = false
 
 func _ready():
 	randomize()
+	anim_burning.visible = false
 	
 	$Idle_sounds/idle_song1.max_distance = MaxSoundDist
 	$Idle_sounds/idle_song2.max_distance = MaxSoundDist
@@ -75,21 +77,42 @@ func _on_area_damage_exit(area):
 	pass
 	
 func _on_damage_area_entered(area):
-
-	if area.is_in_group("player_attack"):
+	if area.is_in_group("fireball"):
+		life -= 1
+		damaged(anim)
+		anim_burning.visible = true
+		anim_burning.play("burning")
+		$SoundsEffects/burning_sound.play()
+		
+		yield(get_tree().create_timer(1.5),"timeout")
+		damaged(anim)
+		life -= 1
+		
+		yield(get_tree().create_timer(1.5),"timeout")
+		damaged(anim)
+		life -= 1
+		
+		yield(get_tree().create_timer(1.5),"timeout")
+		damaged(anim)
+		life -= 1
+		
+		anim_burning.stop()
+		$SoundsEffects/burning_sound.stop()
+		anim_burning.visible = false
+	
+	elif area.is_in_group("player_attack"):
 		life -= 1
 		
 		if life > 0:
 			damaged(anim)
 		
-		if life <= 0 :
-			$SoundsEffects/dead_song.play()
-			dead()
+	if life <= 0 :
+		$SoundsEffects/dead_song.play()
+		dead()
 
 			
 func _process(delta: float) -> void:
-#	if stopAutoFollow : 
-#		return
+
 	if !touchable :
 		$Damage/CollisionShape2D.disabled = true
 		$CollisionShape2D.disabled = true
@@ -150,7 +173,6 @@ func fade(val):
 	modulate = val
 
 func dead():
-	
 	die = true
 	touchable = false
 	emit_signal("is_died", global_position, totalDropCoin)

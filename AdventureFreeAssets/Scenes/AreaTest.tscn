@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Chapters/Begining_Chapter.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Zombie.tscn" type="PackedScene" id=2]
@@ -12,8 +12,8 @@
 [ext_resource path="res://Assets/freetileset/png/Object/Bush (3).png" type="Texture" id=10]
 [ext_resource path="res://Assets/freetileset/png/Object/Tree_2.png" type="Texture" id=11]
 [ext_resource path="res://Assets/freetileset/png/Object/Tree_3.png" type="Texture" id=12]
-[ext_resource path="res://Scenes/HearthRB.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Assets/songs/Autumn Forest.wav" type="AudioStream" id=14]
+[ext_resource path="res://Assets/songs/music2.wav" type="AudioStream" id=13]
+[ext_resource path="res://Scenes/Bee.tscn" type="PackedScene" id=15]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -23,6 +23,11 @@ _data = {
 [sub_resource type="Curve2D" id=2]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 2507.04, -161.725, 0, 0, 0, 0, 2216.96, -170.515 )
+}
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 614.448, 76.6972, 0, 0, 0, 0, 252.266, 71.7863 )
 }
 
 [node name="BeginingChapter" type="Node2D"]
@@ -35,7 +40,7 @@ script = ExtResource( 1 )
 tile_set = ExtResource( 3 )
 cell_size = Vector2( 128, 128 )
 format = 1
-tile_data = PoolIntArray( -196587, 12, 0, -196586, 13, 0, -196585, 14, 0, -65542, 10, 0, -65541, 2, 0, -6, 4, 0, -5, 5, 0, -65519, 12, 0, -65518, 13, 0, -65517, 14, 0, 65530, 4, 0, 65531, 5, 0, 11, 0, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 15, 2, 0, 131066, 4, 0, 131067, 9, 0, 131068, 10, 0, 131069, 1, 0, 131070, 1, 0, 131071, 1, 0, 65536, 1, 0, 65537, 1, 0, 65538, 1, 0, 65539, 1, 0, 65540, 1, 0, 65541, 1, 0, 65542, 1, 0, 65543, 1, 0, 65544, 1, 0, 65545, 1, 0, 65546, 1, 0, 65547, 7, 0, 65548, 4, 0, 65549, 4, 0, 65550, 4, 0, 65551, 5, 0, 196602, 4, 0, 196603, 4, 0, 196604, 4, 0, 196605, 4, 0, 196606, 4, 0, 196607, 4, 0, 131072, 4, 0, 131073, 4, 0, 131074, 4, 0, 131075, 4, 0, 131076, 4, 0, 131077, 4, 0, 131078, 4, 0, 131079, 4, 0, 131080, 4, 0, 131081, 4, 0, 131082, 4, 0, 131083, 4, 0, 131084, 4, 0, 131085, 4, 0, 131086, 4, 0, 131087, 5, 0 )
+tile_data = PoolIntArray( -65542, 10, 0, -65541, 2, 0, -131051, 0, 0, -131050, 1, 0, -131049, 1, 0, -131048, 1, 0, -131047, 1, 0, -131046, 1, 0, -131045, 1, 0, -131044, 1, 0, -131043, 1, 0, -6, 4, 0, -5, 5, 0, -65519, 12, 0, -65518, 13, 0, -65517, 14, 0, -65515, 3, 0, -65514, 4, 0, -65513, 4, 0, -65512, 4, 0, -65511, 4, 0, -65507, 3, 0, 65530, 4, 0, 65531, 5, 0, 11, 0, 0, 12, 1, 0, 13, 1, 0, 14, 1, 0, 15, 2, 0, 21, 3, 0, 22, 4, 0, 23, 4, 0, 24, 4, 0, 25, 4, 0, 29, 3, 0, 131066, 4, 0, 131067, 9, 0, 131068, 10, 0, 131069, 1, 0, 131070, 1, 0, 131071, 1, 0, 65536, 1, 0, 65537, 1, 0, 65538, 1, 0, 65539, 1, 0, 65540, 1, 0, 65541, 1, 0, 65542, 1, 0, 65543, 1, 0, 65544, 1, 0, 65545, 1, 0, 65546, 1, 0, 65547, 7, 0, 65548, 4, 0, 65549, 4, 0, 65550, 4, 0, 65551, 5, 0, 65557, 3, 0, 65558, 4, 0, 65559, 4, 0, 65560, 4, 0, 65561, 4, 0, 65565, 3, 0, 196602, 4, 0, 196603, 4, 0, 196604, 4, 0, 196605, 4, 0, 196606, 4, 0, 196607, 4, 0, 131072, 4, 0, 131073, 4, 0, 131074, 4, 0, 131075, 4, 0, 131076, 4, 0, 131077, 4, 0, 131078, 4, 0, 131079, 4, 0, 131080, 4, 0, 131081, 4, 0, 131082, 4, 0, 131083, 4, 0, 131084, 4, 0, 131085, 4, 0, 131086, 4, 0, 131087, 5, 0, 131093, 3, 0, 131094, 4, 0, 131095, 4, 0, 131096, 4, 0, 131097, 9, 0, 131098, 1, 0, 131099, 1, 0, 131100, 1, 0, 131101, 7, 0 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -120,8 +125,7 @@ scale = Vector2( 1.48821, 1.48821 )
 texture = ExtResource( 8 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 14 )
-pitch_scale = 2.0
+stream = ExtResource( 13 )
 autoplay = true
 
 [node name="Path2D" type="Path2D" parent="."]
@@ -143,7 +147,7 @@ __meta__ = {
 [node name="Zombie" parent="Path2D/PathFollow2D" instance=ExtResource( 2 )]
 
 [node name="Spawn" type="Position2D" parent="."]
-position = Vector2( -410.727, -45.9185 )
+position = Vector2( -651.585, -441.488 )
 
 [node name="Path2D2" type="Path2D" parent="."]
 curve = SubResource( 2 )
@@ -159,13 +163,15 @@ loop = false
 [node name="Zombie" parent="Path2D2/PathFollow2D" instance=ExtResource( 2 )]
 
 [node name="Path2D3" type="Path2D" parent="."]
-position = Vector2( -638.073, 93.3765 )
+position = Vector2( 1203.1, -131.104 )
 curve = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D3"]
 position = Vector2( 2216.96, -170.515 )
-rotation = -6.28319
-offset = 290.296
+offset = 290.297
 rotate = false
 cubic_interp = false
 loop = false
@@ -173,8 +179,16 @@ loop = false
 [node name="Zombie" parent="Path2D3/PathFollow2D" instance=ExtResource( 2 )]
 totalDropCoin = 4
 
-[node name="Hearth2" parent="." instance=ExtResource( 13 )]
-position = Vector2( -239.943, -70.4497 )
+[node name="Path2D4" type="Path2D" parent="."]
+position = Vector2( 3745.59, -356.168 )
+curve = SubResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
 
-[node name="Hearth3" parent="." instance=ExtResource( 13 )]
-position = Vector2( -404.586, -73.7554 )
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D4"]
+position = Vector2( 614.448, 76.6972 )
+rotate = false
+loop = false
+
+[node name="Bee" parent="Path2D4/PathFollow2D" instance=ExtResource( 15 )]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=96 format=2]
 
 [ext_resource path="res://Scripts/player_scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/Player/Idle (6).png" type="Texture" id=2]
@@ -78,6 +78,8 @@
 [ext_resource path="res://Assets/Oxanium-Medium.ttf" type="DynamicFontData" id=76]
 [ext_resource path="res://Assets/Sprites/Coin1.png" type="Texture" id=77]
 [ext_resource path="res://Scenes/PauseMenu.tscn" type="PackedScene" id=78]
+[ext_resource path="res://Scenes/GameOver.tscn" type="PackedScene" id=79]
+[ext_resource path="res://Assets/Sprites/fullmagic.png" type="Texture" id=80]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 23.9194
@@ -95,15 +97,15 @@ animations = [ {
 "name": "run",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 69 ), ExtResource( 66 ), ExtResource( 65 ), ExtResource( 67 ), ExtResource( 63 ), ExtResource( 72 ), ExtResource( 71 ), ExtResource( 64 ), ExtResource( 68 ), ExtResource( 70 ) ],
-"loop": false,
-"name": "dead",
-"speed": 10.0
-}, {
 "frames": [ ExtResource( 41 ), ExtResource( 33 ), ExtResource( 32 ), ExtResource( 35 ), ExtResource( 34 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 37 ) ],
 "loop": false,
 "name": "jump",
 "speed": 9.0
+}, {
+"frames": [ ExtResource( 69 ), ExtResource( 66 ), ExtResource( 65 ), ExtResource( 67 ), ExtResource( 63 ), ExtResource( 72 ), ExtResource( 71 ), ExtResource( 64 ), ExtResource( 68 ), ExtResource( 70 ) ],
+"loop": false,
+"name": "dead",
+"speed": 10.0
 }, {
 "frames": [ ExtResource( 18 ), ExtResource( 15 ), ExtResource( 20 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 12 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 19 ), ExtResource( 31 ) ],
 "loop": true,
@@ -116,7 +118,7 @@ animations = [ {
 "speed": 40.0
 }, {
 "frames": [ ExtResource( 21 ), ExtResource( 22 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ), ExtResource( 25 ), ExtResource( 23 ), ExtResource( 30 ), ExtResource( 24 ) ],
-"loop": true,
+"loop": false,
 "name": "attack",
 "speed": 30.0
 }, {
@@ -124,10 +126,20 @@ animations = [ {
 "loop": true,
 "name": "damaged",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 29 ), ExtResource( 25 ), ExtResource( 23 ), ExtResource( 30 ), ExtResource( 24 ) ],
+"loop": false,
+"name": "end_fire_attack",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 21 ), ExtResource( 22 ), ExtResource( 26 ), ExtResource( 27 ) ],
+"loop": false,
+"name": "init_fire_attack",
+"speed": 20.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 35.2787, 67.1013 )
+extents = Vector2( 35.2787, 61.2228 )
 
 [sub_resource type="StyleBoxEmpty" id=4]
 
@@ -135,6 +147,57 @@ extents = Vector2( 35.2787, 67.1013 )
 size = 50
 outline_color = Color( 0.215686, 0.215686, 0.215686, 1 )
 font_data = ExtResource( 76 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.0980392, 0.435294, 0.00392157, 1 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.415686, 0.0509804, 0.0509804, 1 )
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0.545455, 1 )
+colors = PoolColorArray( 0.973145, 0.567351, 0, 1, 1, 0.0908203, 0, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=9]
+gradient = SubResource( 8 )
+
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0.00645162, 0.103409 ), 0.0, 0.72093, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
+
+[sub_resource type="Curve" id=12]
+_data = [ Vector2( 0.0322581, 0.0375 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=13]
+curve = SubResource( 12 )
+
+[sub_resource type="ParticlesMaterial" id=14]
+lifetime_randomness = 1.0
+trail_size_modifier = SubResource( 13 )
+emission_shape = 1
+emission_sphere_radius = 25.09
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 19.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 10.0
+scale_curve = SubResource( 11 )
+color_ramp = SubResource( 9 )
+
+[sub_resource type="GDScript" id=15]
+script/source = "extends Particles2D
+
+func _ready():
+	$PressedTimer.connect(\"timeout\", self, \"_on_TimerPressed_timeout\")
+
+func _on_TimerPressed_timeout():
+	if scale.x <= 1.5 :
+		scale.x += .05
+		scale.y += .05
+"
 
 [node name="Player" type="KinematicBody2D" groups=[
 "player",
@@ -161,7 +224,7 @@ position = Vector2( 60, 0 )
 position = Vector2( 3, 0 )
 scale = Vector2( 0.2, 0.2 )
 frames = SubResource( 2 )
-animation = "idle"
+animation = "end_fire_attack"
 
 [node name="WaitForAttack" type="Timer" parent="."]
 
@@ -234,10 +297,53 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="MagicBar" type="Sprite" parent="CanvasLayer"]
+position = Vector2( 4.23322, 32.5269 )
+scale = Vector2( 0.165093, 0.165093 )
+texture = ExtResource( 80 )
+
+[node name="StaminaBar" type="ProgressBar" parent="CanvasLayer"]
+margin_left = 778.002
+margin_top = 25.0001
+margin_right = 1078.0
+margin_bottom = 65.0001
+custom_styles/fg = SubResource( 6 )
+custom_styles/bg = SubResource( 7 )
+value = 100.0
+percent_visible = false
+
+[node name="CanRun" type="Timer" parent="CanvasLayer/StaminaBar"]
+wait_time = 1.5
+
 [node name="canvas_pause" type="CanvasLayer" parent="."]
 
 [node name="PauseMenu" parent="canvas_pause" instance=ExtResource( 78 )]
+visible = false
 margin_left = -56.7035
 margin_top = -156.957
 margin_right = 322.297
 margin_bottom = 167.043
+
+[node name="GameOver" parent="canvas_pause" instance=ExtResource( 79 )]
+visible = false
+margin_left = 507.857
+margin_top = 233.976
+margin_right = 507.857
+margin_bottom = 233.976
+
+[node name="position_fireball" type="Position2D" parent="."]
+position = Vector2( 90, 0 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+position = Vector2( 7.59174, -35.3308 )
+z_index = 1
+emitting = false
+amount = 35
+process_material = SubResource( 14 )
+script = SubResource( 15 )
+
+[node name="PressedTimer" type="Timer" parent="Particles2D"]
+wait_time = 0.1
+
+[node name="MagicTimer" type="Timer" parent="."]
+wait_time = 1.5

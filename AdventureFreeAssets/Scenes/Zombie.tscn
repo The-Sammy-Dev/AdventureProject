@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://Scenes/Enemy.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Sprites/zombie/female/Idle (1).png" type="Texture" id=2]
@@ -50,12 +50,26 @@
 [ext_resource path="res://Assets/songs/zombie-16.wav" type="AudioStream" id=48]
 [ext_resource path="res://Assets/songs/zombie-17.wav" type="AudioStream" id=49]
 [ext_resource path="res://Assets/songs/zombie-18.wav" type="AudioStream" id=50]
+[ext_resource path="res://Assets/Sprites/fire set/4.png" type="Texture" id=51]
+[ext_resource path="res://Assets/Sprites/fire set/3.png" type="Texture" id=52]
+[ext_resource path="res://Assets/Sprites/fire set/1.png" type="Texture" id=53]
+[ext_resource path="res://Assets/Sprites/fire set/2.png" type="Texture" id=54]
+[ext_resource path="res://Assets/songs/Fire2.wav" type="AudioStream" id=55]
+[ext_resource path="res://Assets/Sprites/fire set/5.png" type="Texture" id=56]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 34.2532
 height = 12.8889
 
 [sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 53 ), ExtResource( 54 ), ExtResource( 52 ), ExtResource( 51 ), ExtResource( 56 ) ],
+"loop": true,
+"name": "burning",
+"speed": 7.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 18 ), ExtResource( 25 ), ExtResource( 8 ), ExtResource( 28 ), ExtResource( 11 ), ExtResource( 17 ), ExtResource( 9 ), ExtResource( 34 ), ExtResource( 39 ), ExtResource( 32 ), ExtResource( 5 ), ExtResource( 30 ), ExtResource( 33 ), ExtResource( 12 ) ],
 "loop": true,
@@ -78,7 +92,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 41.2166, 34.0101 )
 
 [node name="Zombie" type="KinematicBody2D" groups=[
@@ -95,17 +109,26 @@ scale = Vector2( 20, 10 )
 position = Vector2( -1.05261, 1 )
 shape = SubResource( 1 )
 
+[node name="IsBurning" type="AnimatedSprite" parent="."]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.682353 )
+position = Vector2( -6, -14 )
+scale = Vector2( 0.5, 0.5 )
+z_index = 2
+frames = SubResource( 2 )
+animation = "burning"
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -6, -14 )
 scale = Vector2( 0.2, 0.2 )
-frames = SubResource( 2 )
-animation = "walking"
+frames = SubResource( 3 )
+animation = "idle"
 
 [node name="Damage" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Damage"]
 position = Vector2( 0, 7 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Idle_sounds" type="Node2D" parent="."]
 
@@ -143,3 +166,8 @@ stream = ExtResource( 47 )
 volume_db = -15.0
 pitch_scale = 0.8
 bus = "zombie_songs"
+
+[node name="burning_sound" type="AudioStreamPlayer2D" parent="SoundsEffects"]
+stream = ExtResource( 55 )
+volume_db = 5.0
+max_distance = 600.0

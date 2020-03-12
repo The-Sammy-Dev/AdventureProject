@@ -1,40 +1,47 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://swordbutton.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Sprites/swordbutton3.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Oxanium-Medium.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Assets/IndieFlower-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scripts/PauseMenu.gd" type="Script" id=4]
-[ext_resource path="res://Assets/Sprites/png_icon.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Sprites/bar_options.png" type="Texture" id=6]
-[ext_resource path="res://Scenes/SoundBar.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/SoundsEffects.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/InOptions.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/songs/three_sword_sound.wav" type="AudioStream" id=9]
+[ext_resource path="res://Assets/songs/menu_anim_a.wav" type="AudioStream" id=10]
 
 [sub_resource type="StyleBoxTexture" id=1]
 texture = ExtResource( 1 )
-region_rect = Rect2( 0, 0, 696, 2997 )
+region_rect = Rect2( 0, 0, 1051, 269 )
 
 [sub_resource type="StyleBoxTexture" id=2]
 texture = ExtResource( 1 )
-region_rect = Rect2( 0, 0, 696, 2997 )
+region_rect = Rect2( 0, 0, 1051, 269 )
 modulate_color = Color( 0.403922, 0.403922, 0.396078, 1 )
 
 [sub_resource type="StyleBoxTexture" id=3]
+modulate_color = Color( 0.490196, 0.203922, 0.203922, 1 )
+
+[sub_resource type="StyleBoxTexture" id=4]
 texture = ExtResource( 1 )
-region_rect = Rect2( 0, 0, 696, 2997 )
+region_rect = Rect2( 0, 0, 1051, 269 )
 modulate_color = Color( 0.823529, 0.823529, 0.823529, 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 30
 extra_spacing_bottom = 200
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=6]
 size = 45
 outline_color = Color( 1, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="Animation" id=6]
-resource_name = "pause"
+[sub_resource type="StyleBoxTexture" id=7]
+modulate_color = Color( 0.266667, 0, 0, 1 )
+
+[sub_resource type="StyleBoxTexture" id=8]
+modulate_color = Color( 0.67451, 0.0431373, 0.0431373, 1 )
+
+[sub_resource type="Animation" id=9]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("ExitButton:rect_position")
@@ -46,7 +53,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 526.964, 307.929 ), Vector2( -39.4819, 307.929 ) ]
+"values": [ Vector2( 953.541, 307.929 ), Vector2( 347, 307 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("OptionsButton:rect_position")
@@ -55,10 +62,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.5 ),
+"times": PoolRealArray( 0, 1.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 592.346, 211.136 ), Vector2( 22.4507, 211.136 ) ]
+"values": [ Vector2( 1162, 211 ), Vector2( 430, 210 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("ResumeButton:rect_position")
@@ -70,7 +77,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 662.073, 114.327 ), Vector2( 99.012, 114.327 ) ]
+"values": [ Vector2( 1400, 114 ), Vector2( 530, 114 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("ResumeButton:modulate")
@@ -79,7 +86,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1.5 ),
+"times": PoolRealArray( 0, 1.7 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -108,10 +115,6 @@ tracks/5/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
-
-[sub_resource type="DynamicFont" id=7]
-size = 35
-font_data = ExtResource( 3 )
 
 [node name="PauseMenu" type="Control"]
 pause_mode = 2
@@ -144,18 +147,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 472.573
-margin_top = -47.6732
-margin_right = 817.572
-margin_bottom = 624.327
+margin_left = 1210.5
+margin_top = -48.0
+margin_right = 2110.5
+margin_bottom = 183.0
 grow_horizontal = 0
 grow_vertical = 0
-rect_rotation = -90.0
-rect_scale = Vector2( 0.2, 0.5 )
+rect_rotation = 180.0
+rect_scale = Vector2( 0.4, 0.3 )
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false,
@@ -164,15 +168,15 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="ResumeButton"]
 modulate = Color( 0.223529, 0.0823529, 0, 1 )
-margin_left = 244.04
-margin_top = 116.533
-margin_right = 545.04
-margin_bottom = 206.533
+margin_left = 742.655
+margin_top = 178.583
+margin_right = 1043.66
+margin_bottom = 268.583
 grow_horizontal = 0
 grow_vertical = 0
-rect_rotation = 90.0
+rect_rotation = 180.0
 rect_scale = Vector2( 1, 2 )
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "Resume Game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -183,18 +187,19 @@ modulate = Color( 1, 1, 1, 0 )
 anchor_left = -0.114
 anchor_right = 1.397
 anchor_bottom = 1.224
-margin_left = 635.552
-margin_top = 211.136
-margin_right = 407.883
-margin_bottom = 486.56
+margin_left = 1205.21
+margin_top = 211.0
+margin_right = 1532.54
+margin_bottom = 45.424
 grow_horizontal = 0
 grow_vertical = 0
-rect_rotation = -90.0
-rect_scale = Vector2( 0.2, 0.5 )
+rect_rotation = 180.0
+rect_scale = Vector2( 0.4, 0.3 )
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false,
@@ -207,15 +212,15 @@ anchor_left = -2.542
 anchor_top = -0.393
 anchor_right = 2.953
 anchor_bottom = 1.216
-margin_left = 1125.15
-margin_top = 467.956
-margin_right = -621.624
-margin_bottom = -523.292
+margin_left = 2920.8
+margin_top = 272.783
+margin_right = -1885.7
+margin_bottom = -32.896
 grow_horizontal = 0
 grow_vertical = 0
-rect_rotation = 90.0
+rect_rotation = 180.0
 rect_scale = Vector2( 1, 2 )
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "Options"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -227,18 +232,20 @@ anchor_left = 0.115
 anchor_top = 0.732
 anchor_right = 1.0
 anchor_bottom = 0.945
-margin_left = 483.379
-margin_top = 70.7615
-margin_right = 492.964
-margin_bottom = 673.75
+margin_left = 909.956
+margin_top = 70.761
+margin_right = 1474.54
+margin_bottom = 232.749
 grow_horizontal = 0
 grow_vertical = 0
-rect_rotation = -90.0
-rect_scale = Vector2( 0.2, 0.5 )
+rect_rotation = 180.0
+rect_scale = Vector2( 0.4, 0.3 )
+mouse_filter = 1
 custom_styles/hover = SubResource( 1 )
 custom_styles/pressed = SubResource( 2 )
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
+custom_styles/focus = SubResource( 8 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false,
@@ -250,15 +257,15 @@ modulate = Color( 0.223529, 0.0823529, 0, 1 )
 anchor_top = 0.038
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 240.716
-margin_top = 123.87
-margin_right = 238.716
-margin_bottom = -387.594
+margin_left = 707.709
+margin_top = 174.077
+margin_right = 212.709
+margin_bottom = 86.8549
 grow_horizontal = 0
 grow_vertical = 0
-rect_rotation = 90.0
+rect_rotation = 180.0
 rect_scale = Vector2( 1, 2 )
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "Exit To Menu
 "
 __meta__ = {
@@ -267,59 +274,16 @@ __meta__ = {
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 playback_speed = 5.0
-anims/pause = SubResource( 6 )
+anims/pause = SubResource( 9 )
 
-[node name="SoundsEffects" type="HSlider" parent="."]
-visible = false
-margin_left = -143.226
-margin_top = 239.278
-margin_right = 181.774
-margin_bottom = 272.278
-custom_icons/tick = ExtResource( 6 )
-custom_icons/grabber_highlight = ExtResource( 5 )
-custom_icons/grabber = ExtResource( 5 )
-min_value = -40.0
-max_value = 0.0
-value = -15.0
-tick_count = 1
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="anim_menu" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+pitch_scale = 0.5
 
-[node name="Label" type="Label" parent="SoundsEffects"]
-margin_left = 19.7197
-margin_top = -63.4229
-margin_right = 248.72
-margin_bottom = 1.57709
-custom_fonts/font = SubResource( 7 )
-text = "Sounds Effects"
+[node name="sound_menu_anim" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+pitch_scale = 1.2
 
-[node name="SoundBar" type="HSlider" parent="."]
-visible = false
-margin_left = -143.226
-margin_top = 385.315
-margin_right = 181.774
-margin_bottom = 418.315
-custom_icons/tick = ExtResource( 6 )
-custom_icons/grabber_highlight = ExtResource( 5 )
-custom_icons/grabber = ExtResource( 5 )
-min_value = -30.0
-max_value = -5.0
-value = -10.0
-tick_count = 1
-script = ExtResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="InOptions" parent="." instance=ExtResource( 5 )]
 
-[node name="Label2" type="Label" parent="SoundBar"]
-margin_left = 101.644
-margin_top = -61.4687
-margin_right = 200.644
-margin_bottom = 3.53127
-custom_fonts/font = SubResource( 7 )
-text = "Music"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[editable path="InOptions"]
